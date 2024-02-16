@@ -1,4 +1,4 @@
-name: mqttmotion.v2
+name: mqttmotion
 components:
   - id: main
     capabilities:
@@ -6,7 +6,7 @@ components:
         version: 1
       - id: partyvoice23922.status
         version: 1
-      - id: partyvoice23922.refresh
+      - id: refresh
         version: 1
     categories:
       - name: Motion

@@ -1,4 +1,4 @@
-name: mqttCO2.v1
+name: mqttCO2
 components:
   - id: main
     capabilities:
@@ -10,7 +10,7 @@ components:
               range: [0, 5000]
       - id: partyvoice23922.status
         version: 1
-      - id: partyvoice23922.refresh
+      - id: refresh
         version: 1
     categories:
       - name: AirQualityDetector

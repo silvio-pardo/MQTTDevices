@@ -1,23 +1,3 @@
---[[
-  Copyright 2022 Todd Austin
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
-  except in compliance with the License. You may obtain a copy of the License at:
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the
-  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the License for the specific language governing permissions
-  and limitations under the License.
-
-
-  DESCRIPTION
-
-  MQTT Device Driver - Subscriptions-related Functions
-
---]]
-
 local log = require "log"
 
 local function build_html(list)
@@ -198,17 +178,30 @@ local function get_subscribed_topic(device)
   end
 end
 
-local function mqtt_subscribe(device)
-  if client then
-    local id, topic = get_subscribed_topic(device)
-
-    if topic then
-      log.debug (string.format('Unsubscribing device <%s> from %s', device.label, topic))
-      unsubscribe(id, topic)
+local function mqtt_check_is_subscribed(device)
+    if client then
+        local id, topic = get_subscribed_topic(device)
+        if topic then
+            return true, id, topic
+        end
     end
+    return false, nil, nil
+end
 
-    subscribe_topic(device)
-  end
+local function mqtt_subscribe(device)
+    if client then
+        local subscribed, id, topic = mqtt_check_is_subscribed(device)
+        if subscribed then
+            log.debug (string.format('Unsubscribing device <%s> from %s', device.label, topic))
+            unsubscribe(id, topic)
+        end
+
+        subscribe_topic(device)
+    else
+        log.debug (string.format('Client not running, Restarting Connection...'))
+        creator_device:emit_event(cap_createdev.deviceType(' ', { visibility = { displayed = false } }))
+        init_mqtt(nil)
+    end
 end
 
 return	{
@@ -220,5 +213,6 @@ return	{
           unsubscribe_all = unsubscribe_all,
           get_subscribed_topic = get_subscribed_topic,
           get_last_status_device = get_last_status_device,
-          publish_message = publish_message
+          publish_message = publish_message,
+          mqtt_check_is_subscribed = mqtt_check_is_subscribed
 }

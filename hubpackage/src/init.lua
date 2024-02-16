@@ -1,23 +1,3 @@
---[[
-  Copyright 2022, 2023 Todd Austin
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
-  except in compliance with the License. You may obtain a copy of the License at:
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the
-  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the License for the specific language governing permissions
-  and limitations under the License.
-
-
-  DESCRIPTION
-
-  MQTT Device Driver - supports receiving MQTT published messages for recognized device types:  switch, button, contact, motion, etc.
-
---]]
-
 -- Edge libraries
 local capabilities = require "st.capabilities"
 local Driver = require "st.driver"
@@ -38,28 +18,28 @@ client_reset_inprogress = false
 creator_device = {}           -- referenced by other modules
 
 typemeta =  {
-              ['Switch']       = { ['profile'] = 'mqttswitch.v2b',       ['created'] = 0, ['switch'] = true  },
-              ['Button']       = { ['profile'] = 'mqttbutton.v2',        ['created'] = 0, ['switch'] = false },
-              ['Contact']      = { ['profile'] = 'mqttcontact.v2',       ['created'] = 0, ['switch'] = false },
-              ['Motion']       = { ['profile'] = 'mqttmotion.v2',        ['created'] = 0, ['switch'] = false },
-              ['Alarm']        = { ['profile'] = 'mqttalarm.v2',         ['created'] = 0, ['switch'] = false },
-              ['Dimmer']       = { ['profile'] = 'mqttdimmer.v3t',        ['created'] = 0, ['switch'] = true },
-              ['Acceleration'] = { ['profile'] = 'mqttaccel.v1',         ['created'] = 0, ['switch'] = false },
-              ['Lock']         = { ['profile'] = 'mqttlock.v2',          ['created'] = 0, ['switch'] = false },
-              ['Presence']     = { ['profile'] = 'mqttpresence.v1',      ['created'] = 0, ['switch'] = false },
-              ['Sound']        = { ['profile'] = 'mqttsound.v1',         ['created'] = 0, ['switch'] = false },
-              ['Water']        = { ['profile'] = 'mqttwater.v1',         ['created'] = 0, ['switch'] = false },
-              ['Temperature']  = { ['profile'] = 'mqtttemp.v2',          ['created'] = 0, ['switch'] = false },
-              ['Humidity']     = { ['profile'] = 'mqtthumidity.v1',      ['created'] = 0, ['switch'] = false },
-              ['MotionPlus']   = { ['profile'] = 'mqttmotion_plus.v1',   ['created'] = 0, ['switch'] = false },
-              ['Energy']       = { ['profile'] = 'mqttenergy.v3d',       ['created'] = 0, ['switch'] = false },
-              ['Text']         = { ['profile'] = 'mqtttext.v2',          ['created'] = 0, ['switch'] = false },
-              ['Numeric']      = { ['profile'] = 'mqttnumeric.v1',       ['created'] = 0, ['switch'] = false },
-              ['CO2']          = { ['profile'] = 'mqttCO2.v1',           ['created'] = 0, ['switch'] = false },
-              ['Shade']        = { ['profile'] = 'mqttshade.v1b',        ['created'] = 0, ['switch'] = false },
-              ['Battery']      = { ['profile'] = 'mqttbattery.v1',       ['created'] = 0, ['switch'] = false },
-              ['Robot']        = { ['profile'] = 'mqttrobot.v1',         ['created'] = 0, ['switch'] = false },
-              ['Fan']          = { ['profile'] = 'mqttfan.v1',           ['created'] = 0, ['switch'] = true },
+              ['Switch']       = { ['profile'] = 'mqttswitch',       ['created'] = 0, ['switch'] = true  },
+              ['Button']       = { ['profile'] = 'mqttbutton',        ['created'] = 0, ['switch'] = false },
+              ['Contact']      = { ['profile'] = 'mqttcontact',       ['created'] = 0, ['switch'] = false },
+              ['Motion']       = { ['profile'] = 'mqttmotion',        ['created'] = 0, ['switch'] = false },
+              ['Alarm']        = { ['profile'] = 'mqttalarm',         ['created'] = 0, ['switch'] = false },
+              ['Dimmer']       = { ['profile'] = 'mqttdimmer',        ['created'] = 0, ['switch'] = true },
+              ['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
+              ['Lock']         = { ['profile'] = 'mqttlock',          ['created'] = 0, ['switch'] = false },
+              ['Presence']     = { ['profile'] = 'mqttpresence',      ['created'] = 0, ['switch'] = false },
+              ['Sound']        = { ['profile'] = 'mqttsound',         ['created'] = 0, ['switch'] = false },
+              ['Water']        = { ['profile'] = 'mqttwater',         ['created'] = 0, ['switch'] = false },
+              ['Temperature']  = { ['profile'] = 'mqtttemp',          ['created'] = 0, ['switch'] = false },
+              ['Humidity']     = { ['profile'] = 'mqtthumidity',      ['created'] = 0, ['switch'] = false },
+              ['MotionPlus']   = { ['profile'] = 'mqttmotion_plus',   ['created'] = 0, ['switch'] = false },
+              ['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
+              ['Text']         = { ['profile'] = 'mqtttext',          ['created'] = 0, ['switch'] = false },
+              ['Numeric']      = { ['profile'] = 'mqttnumeric',       ['created'] = 0, ['switch'] = false },
+              ['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
+              ['Shade']        = { ['profile'] = 'mqttshade',        ['created'] = 0, ['switch'] = false },
+              ['Battery']      = { ['profile'] = 'mqttbattery',       ['created'] = 0, ['switch'] = false },
+              ['Robot']        = { ['profile'] = 'mqttrobot',         ['created'] = 0, ['switch'] = false },
+              ['Fan']          = { ['profile'] = 'mqttfan',           ['created'] = 0, ['switch'] = true },
             }
 
 -- Module variables
@@ -68,25 +48,16 @@ local initialized = false
 local clearcreatemsg_timer
 local shutdown_requested = false
 
-local MASTERPROFILE = 'mqttcreator.v9'
-local MASTERLABEL = 'MQTT Device Creator V1.9'
+local MASTERPROFILE = 'mqttcreator'
+local MASTERLABEL = 'MQTT Device Handler'
 
-local CREATECAPID  = 'partyvoice23922.createmqttdev9'
-local CREATECAPID8  = 'partyvoice23922.createmqttdev8'
-local CREATECAPID7 = 'partyvoice23922.createmqttdev7'
-local CREATECAPID6 = 'partyvoice23922.createmqttdev6'
-
+local CREATECAPID  = 'partyvoice23922.createmqttdev'
 
 -- Custom Capabilities
-cap_createdev_latest = capabilities[CREATECAPID]
-cap_createdev_old8 = capabilities[CREATECAPID8]
-cap_createdev_old7 = capabilities[CREATECAPID7]
-cap_createdev_old6 = capabilities[CREATECAPID6]
-cap_createdev = cap_createdev_old6
+cap_createdev = capabilities[CREATECAPID]
 
 cap_status = capabilities["partyvoice23922.status"]
 cap_topiclist = capabilities["partyvoice23922.topiclist"]
-cap_refresh = capabilities["partyvoice23922.refresh"]
 cap_custompublish = capabilities["partyvoice23922.mqttpublish"]
 
 cap_tempset = capabilities["partyvoice23922.vtempset"]
@@ -99,8 +70,6 @@ cap_unitfield = capabilities["partyvoice23922.unitfield"]
 
 cap_reset = capabilities["partyvoice23922.resetselect"]
 
-
-
 local function schedule_subscribe()
 
   if client then
@@ -110,7 +79,6 @@ local function schedule_subscribe()
     thisDriver:call_with_delay(2, schedule_subscribe)
   end
 end
-
 
 local function create_MQTT_client(device)
 
@@ -164,7 +132,6 @@ local function create_MQTT_client(device)
   return client
 
 end
-
 
 function init_mqtt(device)
 
@@ -259,13 +226,9 @@ local function device_init(driver, device)
     creator_device = device
     
     if device:supports_capability_by_id(CREATECAPID) then
-      cap_createdev = cap_createdev_latest
-    elseif device:supports_capability_by_id(CREATECAPID8) then
-      cap_createdev = cap_createdev_old8
-    elseif device:supports_capability_by_id(CREATECAPID7) then
-      cap_createdev = cap_createdev_old7
+      log.info(device.id .. " Support the create capability")
     else
-      cap_createdev = cap_createdev_old6
+      log.info(device.id .. " Create capabilty unsupported.")
     end
     
     device:emit_event(cap_createdev.deviceType(' '))
@@ -281,7 +244,6 @@ local function device_init(driver, device)
   end
   
 end
-
 
 -- Called when device was just created in SmartThings
 local function device_added (driver, device)
@@ -309,11 +271,11 @@ local function device_added (driver, device)
       
     elseif dtype == 'Button' then
       local supported_values =  {
-                                  capabilities.button.button.pushed.NAME,
-                                  capabilities.button.button.held.NAME,
-                                  capabilities.button.button.double.NAME,
-                                  capabilities.button.button.pushed_3x.NAME,
-                                }
+        capabilities.button.button.pushed.NAME,
+        capabilities.button.button.held.NAME,
+        capabilities.button.button.double.NAME,
+        capabilities.button.button.pushed_3x.NAME,
+      }
       device:emit_event(capabilities.button.supportedButtonValues(supported_values))
     elseif dtype == 'Alarm' then
       device:emit_event(capabilities.alarm.alarm('off'))
@@ -368,14 +330,10 @@ local function device_added (driver, device)
   end
 end
 
-
 -- Called when SmartThings thinks the device needs provisioning
 local function device_doconfigure (_, device)
-
   log.info ('Device doConfigure lifecycle invoked')
-
 end
-
 
 -- Called when device was deleted via mobile app
 local function device_removed(driver, device)
@@ -408,13 +366,9 @@ local function device_removed(driver, device)
 
 end
 
-
 local function handler_driverchanged(driver, device, event, args)
-
   log.debug ('*** Driver changed handler invoked ***')
-
 end
-
 
 local function shutdown_handler(driver, event)
 
@@ -437,7 +391,6 @@ local function shutdown_handler(driver, event)
   end
 
 end
-
 
 local function handler_infochanged (driver, device, event, args)
 
@@ -479,7 +432,6 @@ local function handler_infochanged (driver, device, event, args)
   end
 end
 
-
 -- Create Primary Creator Device
 local function discovery_handler(driver, _, should_continue)
 
@@ -488,22 +440,22 @@ local function discovery_handler(driver, _, should_continue)
     log.info("Creating MQTT Creator device")
 
     local MFG_NAME = 'SmartThings Community'
-    local MODEL = 'MQTTCreatorV1'
+    local MODEL = 'MQTTCreator'
     local VEND_LABEL = MASTERLABEL           --update; change for testing
-    local ID = 'MQTTDev_Masterv1'               --change for testing
+    local ID = 'MQTTDev_Master'               --change for testing
     local PROFILE = MASTERPROFILE           --update; change for testing
 
     -- Create master creator device
 
     local create_device_msg = {
-                                type = "LAN",
-                                device_network_id = ID,
-                                label = VEND_LABEL,
-                                profile = PROFILE,
-                                manufacturer = MFG_NAME,
-                                model = MODEL,
-                                vendor_provided_label = VEND_LABEL,
-                              }
+      type = "LAN",
+      device_network_id = ID,
+      label = VEND_LABEL,
+      profile = PROFILE,
+      manufacturer = MFG_NAME,
+      model = MODEL,
+      vendor_provided_label = VEND_LABEL,
+    }
 
     assert (driver:try_create_device(create_device_msg), "failed to create creator device")
 
@@ -513,7 +465,6 @@ local function discovery_handler(driver, _, should_continue)
     log.info ('MQTT Creator device already created')
   end
 end
-
 
 -----------------------------------------------------------------------
 --        DRIVER MAINLINE: Build driver context table
@@ -533,17 +484,8 @@ thisDriver = Driver("MQTT Devices", {
     [cap_createdev_latest.ID] = {
       [cap_createdev_latest.commands.setDeviceType.NAME] = cmd.handle_createdevice,
     },
-    [cap_createdev_old7.ID] = {
-      [cap_createdev_old7.commands.setDeviceType.NAME] = cmd.handle_createdevice,
-    },
-    [cap_createdev_old6.ID] = {
-      [cap_createdev_old6.commands.setDeviceType.NAME] = cmd.handle_createdevice,
-    },
-    [cap_refresh.ID] = {
-      [cap_refresh.commands.push.NAME] = cmd.handle_refresh,
-    },
     [capabilities.refresh.ID] = {
-      [capabilities.refresh.commands.refresh.NAME] = cmd.handle_device_status_refresh,
+      [capabilities.refresh.commands.refresh.NAME] = cmd.handle_refresh,
     },
     [cap_tempset.ID] = {
       [cap_tempset.commands.setvTemp.NAME] = cmd.handle_tempset,
@@ -615,6 +557,6 @@ thisDriver = Driver("MQTT Devices", {
   }
 })
 
-log.info ('MQTT Device Driver V1.8 Started')
+log.info ('MQTT Device Driver Started')
 
 thisDriver:run()

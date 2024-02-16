@@ -1,4 +1,4 @@
-name: mqtttemp.v2
+name: mqtttemp
 components:
   - id: main
     capabilities:
@@ -16,7 +16,7 @@ components:
               range: [-120, 200]
       - id: partyvoice23922.status
         version: 1
-      - id: partyvoice23922.refresh
+      - id: refresh
         version: 1
     categories:
       - name: Thermostat

@@ -1,4 +1,4 @@
-name: mqttaccel.v1
+name: mqttaccel
 components:
   - id: main
     capabilities:

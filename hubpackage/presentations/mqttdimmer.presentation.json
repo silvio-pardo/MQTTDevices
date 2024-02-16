@@ -8,7 +8,14 @@
         "version": 1,
         "idx": 0,
         "group": "main",
-        "values": [],
+        "values": [
+          {
+            "key": "switch.value",
+            "enabledValues": [
+              "on"
+            ]
+          }
+        ],
         "composite": false
       }
     ],
@@ -18,7 +25,15 @@
         "capability": "switch",
         "version": 1,
         "idx": 0,
-        "group": "main"
+        "group": "main",
+        "values": [
+          {
+            "key": "switch.value",
+            "enabledValues": [
+              "on"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -27,15 +42,29 @@
       "component": "main",
       "capability": "switch",
       "version": 1,
-      "values": [],
-      "patch": []
+      "values": [
+        {
+          "key": "switch.value",
+          "enabledValues": [
+            "on"
+          ]
+        }
+      ]
     },
     {
       "component": "main",
       "capability": "switchLevel",
       "version": 1,
-      "values": [],
-      "patch": []
+      "values": [
+        {
+          "key": "level.value",
+          "range": [
+            0,
+            100
+          ],
+          "step": 1
+        }
+      ]
     },
     {
       "component": "main",
@@ -44,51 +73,5 @@
       "values": [],
       "patch": []
     }
-  ],
-  "automation": {
-    "conditions": [
-      {
-        "component": "main",
-        "capability": "switch",
-        "version": 1,
-        "values": [],
-        "patch": [],
-        "exclusion": []
-      },
-      {
-        "component": "main",
-        "capability": "switchLevel",
-        "version": 1,
-        "values": [],
-        "patch": [],
-        "exclusion": []
-      }
-    ],
-    "actions": [
-      {
-        "component": "main",
-        "capability": "switch",
-        "version": 1,
-        "values": [],
-        "patch": [],
-        "exclusion": []
-      },
-      {
-        "component": "main",
-        "capability": "switchLevel",
-        "version": 1,
-        "values": [],
-        "patch": [],
-        "exclusion": []
-      },
-      {
-        "component": "main",
-        "capability": "refresh",
-        "version": 1,
-        "values": [],
-        "patch": [],
-        "exclusion": []
-      }
-    ]
-  }
+  ]
 }

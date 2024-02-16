@@ -1,46 +1,23 @@
---[[
-  Copyright 2022, 2023 Todd Austin
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
-  except in compliance with the License. You may obtain a copy of the License at:
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the
-  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the License for the specific language governing permissions
-  and limitations under the License.
-
-
-  DESCRIPTION
-
-  MQTT Device Driver - Capability Command handlers
-
---]]
-
 local log = require "log"
 local capabilities = require "st.capabilities"
-local cosock = require "cosock"
-local socket = require "cosock.socket"          -- just for time
+local socket = require "cosock.socket"
 local json = require "dkjson"
 local subs = require "subscriptions"
 
 local function handle_refresh(driver, device, command)
-
   log.info ('Refresh requested')
-
   if device.device_network_id:find('Master', 1, 'plaintext') then
     creator_device:emit_event(cap_createdev.deviceType(' ', { visibility = { displayed = false } }))
     init_mqtt(device)
   else
-    subs.mqtt_subscribe(device)
+    local subscribed, id, topic = subs.mqtt_check_is_subscribed(device)
+    if subscribed then
+      log.info ('Refresh status device requested, request updated data from zigbee2mqtt')
+      subs.get_last_status_device(device)
+    else
+      subs.mqtt_subscribe(device)
+    end
   end
-
-end
-
-local function handle_device_status_refresh(driver, device, command)
-  log.info ('Refresh status device requested, request updated data from zigbee2mqtt')
-  subs.get_last_status_device(device)
 end
 
 local function create_device(driver, dtype)
@@ -456,7 +433,6 @@ end
 
 return  {
           handle_refresh = handle_refresh,
-          handle_device_status_refresh = handle_device_status_refresh,
           handle_createdevice = handle_createdevice,
           handle_switch = handle_switch,
           handle_button = handle_button,
