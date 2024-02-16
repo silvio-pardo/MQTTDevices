@@ -2,15 +2,15 @@ name: mqttcreator
 components:
   - id: main
     capabilities:
-      - id: partyvoice23922.createmqttdev9
+      - id: colorborder61348.createmqttdev
         version: 1
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
-      - id: partyvoice23922.topiclist
+      - id: colorborder61348.topiclist
         version: 1
       - id: refresh
         version: 1
-      - id: partyvoice23922.mqttpublish
+      - id: colorborder61348.mqttpublish
         version: 1
     categories:
       - name: Others

@@ -8,7 +8,7 @@ components:
           values:
             - key: "carbonDioxide.value"
               range: [0, 5000]
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1

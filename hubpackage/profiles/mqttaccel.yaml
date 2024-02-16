@@ -4,9 +4,9 @@ components:
     capabilities:
       - id: accelerationSensor
         version: 1
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
-      - id: partyvoice23922.refresh
+      - id: colorborder61348.refresh
         version: 1
     categories:
       - name: Motion

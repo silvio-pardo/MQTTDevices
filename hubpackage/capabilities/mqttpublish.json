@@ -1,7 +1,4 @@
 {
-    "id": "partyvoice23922.mqttpublish",
-    "version": 1,
-    "status": "proposed",
     "name": "mqttpublish",
     "ephemeral": false,
     "attributes": {},
@@ -30,6 +27,32 @@
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 2
+                    }
+                }
+            ]
+        },
+        "GET": {
+            "name": "GET",
+            "arguments": [
+                {
+                    "name": "url",
+                    "optional": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "body",
+                    "optional": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "headers",
+                    "optional": true,
+                    "schema": {
+                        "type": "string"
                     }
                 }
             ]

@@ -2,9 +2,9 @@ name: mqtttext
 components:
   - id: main
     capabilities:
-      - id: partyvoice23922.mqtttext2
+      - id: colorborder61348.mqtttext2
         version: 1
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1

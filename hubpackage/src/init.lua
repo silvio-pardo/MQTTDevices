@@ -51,24 +51,24 @@ local shutdown_requested = false
 local MASTERPROFILE = 'mqttcreator'
 local MASTERLABEL = 'MQTT Device Handler'
 
-local CREATECAPID  = 'partyvoice23922.createmqttdev'
+local CREATECAPID  = 'colorborder61348.createmqttdev'
 
 -- Custom Capabilities
 cap_createdev = capabilities[CREATECAPID]
 
-cap_status = capabilities["partyvoice23922.status"]
-cap_topiclist = capabilities["partyvoice23922.topiclist"]
-cap_custompublish = capabilities["partyvoice23922.mqttpublish"]
+cap_status = capabilities["colorborder61348.status"]
+cap_topiclist = capabilities["colorborder61348.topiclist"]
+cap_custompublish = capabilities["colorborder61348.mqttpublish"]
 
-cap_tempset = capabilities["partyvoice23922.vtempset"]
-cap_humidityset = capabilities["partyvoice23922.vhumidityset"]
-cap_text = capabilities["partyvoice23922.mqtttext2"]
-cap_setenergy = capabilities["partyvoice23922.setenergy"]
-cap_setpower = capabilities["partyvoice23922.setpower"]
-cap_numfield = capabilities["partyvoice23922.numberfield"]
-cap_unitfield = capabilities["partyvoice23922.unitfield"]
+cap_tempset = capabilities["colorborder61348.vtempset"]
+cap_humidityset = capabilities["colorborder61348.vhumidityset"]
+cap_text = capabilities["colorborder61348.mqtttext2"]
+cap_setenergy = capabilities["colorborder61348.setenergy"]
+cap_setpower = capabilities["colorborder61348.setpower"]
+cap_numfield = capabilities["colorborder61348.numberfield"]
+cap_unitfield = capabilities["colorborder61348.unitfield"]
 
-cap_reset = capabilities["partyvoice23922.resetselect"]
+cap_reset = capabilities["colorborder61348.resetselect"]
 
 local function schedule_subscribe()
 

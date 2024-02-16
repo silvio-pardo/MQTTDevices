@@ -1,7 +1,7 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "createmqttdev9",
+    "name": "createmqttdev",
     "ephemeral": false,
     "attributes": {
         "deviceType": {

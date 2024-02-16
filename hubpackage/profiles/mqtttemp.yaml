@@ -8,13 +8,13 @@ components:
           values:
             - key: "temperature.value"
               range: [-120, 200]
-      - id: partyvoice23922.vtempset
+      - id: colorborder61348.vtempset
         version: 1
         config:
           values:
             - key: "temperature.value"
               range: [-120, 200]
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1

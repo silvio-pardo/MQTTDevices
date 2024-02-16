@@ -1,5 +1,5 @@
-name: 'MQTT Devices V1.9'
-packageKey: 'mqttdevicesv1'
+name: 'MQTT Devices V2.0'
+packageKey: 'mqttdevicesv2'
 permissions:
     lan: {}
     discovery: {}

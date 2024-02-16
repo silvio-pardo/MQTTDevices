@@ -8,15 +8,15 @@ components:
           values:
             - key: "energy.value"
               range: [-10000, 100000]
-      - id: partyvoice23922.resetselect
+      - id: colorborder61348.resetselect
         version: 1
-      - id: partyvoice23922.setenergy
+      - id: colorborder61348.setenergy
         version: 1
       - id: powerMeter
         version: 1
-      - id: partyvoice23922.setpower
+      - id: colorborder61348.setpower
         version: 1
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1

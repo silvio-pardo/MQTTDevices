@@ -6,7 +6,7 @@ components:
         version: 1
       - id: button
         version: 1
-      - id: partyvoice23922.status
+      - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
