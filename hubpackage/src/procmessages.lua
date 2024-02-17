@@ -322,13 +322,12 @@ local function process_message(topic, msg)
           end
           
           device:emit_event(capabilities.temperatureMeasurement.temperature({value = tempvalue, unit = tempunit}))
-          device:emit_event(cap_tempset.vtemp({value = tempvalue, unit = tempunit}))
+          device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = tempvalue, unit = tempunit}))
           
         elseif dtype == 'Humidity' then
           value = tonumber(value)
           if type(value) == 'number' then
             device:emit_event(capabilities.relativeHumidityMeasurement.humidity(value))
-            device:emit_event(cap_humidityset.vhumidity(value))
           end
           
         elseif dtype == 'Energy' then

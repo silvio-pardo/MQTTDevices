@@ -6,7 +6,7 @@ components:
         version: 1
       - id: colorborder61348.status
         version: 1
-      - id: colorborder61348.refresh
+      - id: refresh
         version: 1
     categories:
       - name: Motion

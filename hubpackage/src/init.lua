@@ -60,15 +60,11 @@ cap_status = capabilities["colorborder61348.status"]
 cap_topiclist = capabilities["colorborder61348.topiclist"]
 cap_custompublish = capabilities["colorborder61348.mqttpublish"]
 
-cap_tempset = capabilities["colorborder61348.vtempset"]
-cap_humidityset = capabilities["colorborder61348.vhumidityset"]
 cap_text = capabilities["colorborder61348.mqtttext2"]
 cap_setenergy = capabilities["colorborder61348.setenergy"]
 cap_setpower = capabilities["colorborder61348.setpower"]
 cap_numfield = capabilities["colorborder61348.numberfield"]
 cap_unitfield = capabilities["colorborder61348.unitfield"]
-
-cap_reset = capabilities["colorborder61348.resetselect"]
 
 local function schedule_subscribe()
 
@@ -296,7 +292,6 @@ local function device_added (driver, device)
       device:emit_event(cap_tempset.vtemp({value=20, unit='C'}))
     elseif dtype == 'Humidity' then
       device:emit_event(capabilities.relativeHumidityMeasurement.humidity(0))
-      device:emit_event(cap_humidityset.vhumidity(0))
     elseif dtype == 'Energy' then
       device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
       device:emit_event(cap_reset.cmdSelect(' '))
@@ -487,11 +482,8 @@ thisDriver = Driver("MQTT Devices", {
     [capabilities.refresh.ID] = {
       [capabilities.refresh.commands.refresh.NAME] = cmd.handle_refresh,
     },
-    [cap_tempset.ID] = {
-      [cap_tempset.commands.setvTemp.NAME] = cmd.handle_tempset,
-    },
-    [cap_humidityset.ID] = {
-      [cap_humidityset.commands.setvHumidity.NAME] = cmd.handle_humidityset,
+    [capabilities.thermostatHeatingSetpoint.ID] = {
+      [capabilities.thermostatHeatingSetpoint.commands.setHeatingSetpoint.NAME] = cmd.handle_tempset,
     },
     [capabilities.switch.ID] = {
       [capabilities.switch.commands.on.NAME] = cmd.handle_switch,
@@ -526,9 +518,6 @@ thisDriver = Driver("MQTT Devices", {
     },
     [capabilities.windowShadeLevel.ID] = {
       [capabilities.windowShadeLevel.commands.setShadeLevel.NAME] = cmd.handle_shade,
-    },
-    [cap_reset.ID] = {
-      [cap_reset.commands.setSelect.NAME] = cmd.handle_reset,
     },
     [cap_custompublish.ID] = {
       [cap_custompublish.commands.publish.NAME] = cmd.handle_custompublish,

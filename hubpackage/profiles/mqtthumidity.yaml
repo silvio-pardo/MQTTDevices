@@ -4,8 +4,6 @@ components:
     capabilities:
       - id: relativeHumidityMeasurement
         version: 1
-      - id: colorborder61348.vhumidityset
-        version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
@@ -13,7 +11,7 @@ components:
     categories:
       - name: Humidifier
 metadata:
-  ocfDeviceType: x.com.st.d.sensor.moisture
+  ocfDeviceType: oic.d.humidifier
 preferences:
   - title: "Subscribe Topic"
     name: subTopic
@@ -41,29 +39,3 @@ preferences:
     definition:
       stringType: text
       default: "humidity.value"
-  - title: "Publish Humidity Changes"
-    name: publish
-    description: "Enable/Disable"
-    required: true
-    preferenceType: boolean
-    definition:
-      default: false
-  - title: "Publish Topic"
-    name: pubtopic
-    description: "Topic String"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "xxxxx/xxxxx"
-  - title: "Publish QoS"
-    name: qos
-    description: "Quality of Service"
-    required: true
-    preferenceType: enumeration
-    definition:
-      options:
-        qos0: "0"
-        qos1: "1"
-        qos2: "2"
-      default: qos1

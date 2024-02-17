@@ -8,8 +8,6 @@ components:
           values:
             - key: "energy.value"
               range: [-10000, 100000]
-      - id: colorborder61348.resetselect
-        version: 1
       - id: colorborder61348.setenergy
         version: 1
       - id: powerMeter

@@ -8,7 +8,7 @@ components:
           values:
             - key: "temperature.value"
               range: [-120, 200]
-      - id: colorborder61348.vtempset
+      - id: thermostatHeatingSetpoint
         version: 1
         config:
           values:
