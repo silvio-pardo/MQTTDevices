@@ -11,7 +11,9 @@ components:
     categories:
       - name: SmartLock
 metadata:
+  vid: 35eb44f9-197d-3701-a660-c90a26dd4296
   ocfDeviceType: oic.d.smartlock
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

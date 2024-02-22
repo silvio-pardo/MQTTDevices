@@ -13,7 +13,9 @@ components:
     categories:
       - name: RobotCleaner
 metadata:
+  vid: c78c2020-8323-3448-a7bd-db574daab36b
   ocfDeviceType: oic.d.robotcleaner
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Basic Control Topic"
     name: subTopic

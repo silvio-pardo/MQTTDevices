@@ -21,7 +21,9 @@ components:
     categories:
       - name: Thermostat
 metadata:
+  vid: 8f6d3a3f-2e35-374b-af33-5385b860aed8
   ocfDeviceType: oic.d.thermostat
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Received Temperature Units"
     name: rtempunit

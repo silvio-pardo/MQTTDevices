@@ -11,7 +11,9 @@ components:
     categories:
       - name: LeakSensor
 metadata:
+  vid: 15fee209-9f03-3491-a32e-93307a10a7a2
   ocfDeviceType: x.com.st.d.sensor.moisture
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

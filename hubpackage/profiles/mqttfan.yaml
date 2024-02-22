@@ -11,7 +11,9 @@ components:
     categories:
       - name: Fan
 metadata:
+  vid: 20eb5a33-5c30-356f-9a49-aee303710b06
   ocfDeviceType: oic.d.fan
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Fan speed value range"
     name: fanspeedrange

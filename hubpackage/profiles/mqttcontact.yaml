@@ -9,7 +9,10 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Contact
+      - name: ContactSensor
+metadata:
+  vid: df6e7fe8-dc66-3938-b99b-1a1d8ef0ae66
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

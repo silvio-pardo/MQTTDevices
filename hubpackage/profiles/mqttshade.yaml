@@ -13,7 +13,9 @@ components:
     categories:
       - name: Blind
 metadata:
+  vid: 33022d3f-036d-3bf9-a2b1-3b28cc4c97cb
   ocfDeviceType: oic.d.blind
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

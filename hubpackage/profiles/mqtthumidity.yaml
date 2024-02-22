@@ -9,9 +9,10 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Humidifier
+      - name: HumiditySensor
 metadata:
-  ocfDeviceType: oic.d.humidifier
+  vid: 206beccf-da97-31da-8177-0f4fa4761878
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

@@ -1,3 +1,4 @@
+#TODO trasformare in spina smart con rilevazione consumo
 name: mqttenergy
 components:
   - id: main

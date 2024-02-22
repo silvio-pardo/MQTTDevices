@@ -10,6 +10,9 @@ components:
         version: 1
     categories:
       - name: Switch
+metadata:
+  vid: a365eeab-4192-3367-9764-208c3f29d200
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

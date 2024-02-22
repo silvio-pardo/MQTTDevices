@@ -16,7 +16,6 @@ local function is_array(t)
   return true
 end
 
-
 local function getJSONElement(key, jsonstring)
 
   if not key or type(key) ~= 'string' then
@@ -74,7 +73,6 @@ local function getJSONElement(key, jsonstring)
   end
 end
 
-
 local function motionplus(device, msg)
 
   local lightvalue = getJSONElement(device.preferences.lightkey, msg)
@@ -89,9 +87,8 @@ local function motionplus(device, msg)
 
 end
 
-
+--old function
 local function energy(device, msg)
-
   local powervalue = getJSONElement(device.preferences.powerkey, msg)
   if type(powervalue) == 'number' then
     if device.preferences.powerunits == 'mwatts' then
@@ -101,9 +98,8 @@ local function energy(device, msg)
     end
     device:emit_event(capabilities.powerMeter.power(powervalue))
   end
-
 end
-
+--end old
 
 local function process_message(topic, msg)
 
@@ -144,7 +140,7 @@ local function process_message(topic, msg)
         end
 
         if dtype == 'MotionPlus' then
-        
+
           motionplus(device, msg)
 
         elseif dtype == 'Switch' then
@@ -155,8 +151,8 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured switch value received')
           end
-          
-        elseif dtype == 'Button' then  
+
+        elseif dtype == 'Button' then
           if value == device.preferences.butpush then
             device:emit_event(capabilities.button.button.pushed({state_change = true}))
           elseif value == device.preferences.butheld then
@@ -168,7 +164,7 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured button value received')
           end
-            
+
         elseif dtype == 'Contact' then
           if value == device.preferences.contactopen then
             device:emit_event(capabilities.contactSensor.contact.open())
@@ -177,7 +173,7 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured contact value received')
           end
-          
+
         elseif dtype == 'Alarm' then
           if value == device.preferences.alarmoff then
             device:emit_event(capabilities.alarm.alarm.off())
@@ -190,7 +186,7 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured alarm value received')
           end
-          
+
         elseif dtype == 'Dimmer' then
           local numvalue = tonumber(value)
           local valueSw = getJSONElement(device.preferences.swjsonelement, msg)
@@ -198,11 +194,11 @@ local function process_message(topic, msg)
           if numvalue then
             log.debug ('Dimmer value received:', numvalue)
             if numvalue < 0 then; numvalue = 0; end
-            
+
             if device.preferences.dimmermax then
               numvalue = math.floor(math.abs((numvalue / device.preferences.dimmermax) * 100))
             end
-            
+
             device:emit_event(capabilities.switchLevel.level(numvalue))
 
             if device:supports_capability_by_id('switch') then
@@ -214,23 +210,23 @@ local function process_message(topic, msg)
                 log.warn ('Unconfigured switch value received')
               end
             end
-            
+
           else
             log.warn('Invalid dimmer value received (NaN)');
           end
-          
+
         elseif dtype == 'Fan' then
           local numvalue = tonumber(value)
           if numvalue then
             log.debug ('Fan value received:', numvalue)
-            
+
             local minspeed, maxspeed = device.preferences.fanspeedrange:match('^(%d+)-(%d+)$')
             minspeed = tonumber(minspeed)
             maxspeed = tonumber(maxspeed)
-            
+
             if (type(minspeed) == 'number') and (type(maxspeed) == 'number') then
               local fanspeed
-              
+
               if numvalue == minspeed then
                 fanspeed = 0
               elseif numvalue == maxspeed then
@@ -242,26 +238,17 @@ local function process_message(topic, msg)
               else
                 fanspeed = 1
               end
-                
+
               device:emit_event(capabilities.fanSpeed.fanSpeed(fanspeed))
-              
+
             else
               log.warn ('Invalid fan speed range configured:', device.preferences.fanspeedrange)
             end
           else
             log.warn('Invalid fan value received (NaN):', value)
           end
-          
-        elseif dtype == 'Acceleration' then  
-          if value == device.preferences.accelactive then
-            device:emit_event(capabilities.accelerationSensor.acceleration.active())
-          elseif value == device.preferences.accelinactive then
-            device:emit_event(capabilities.accelerationSensor.acceleration.inactive())
-          else
-            log.warn ('Unconfigured acceleration value received')
-          end
-          
-        elseif dtype == 'Lock' then  
+
+        elseif dtype == 'Lock' then
           if value == device.preferences.locklocked then
             device:emit_event(capabilities.lock.lock('locked'))
           elseif value == device.preferences.lockunlocked then
@@ -269,8 +256,8 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured lock value received')
           end
-          
-        elseif dtype == 'Presence' then  
+
+        elseif dtype == 'Presence' then
           if value == device.preferences.presencepresent then
             device:emit_event(capabilities.presenceSensor.presence('present'))
           elseif value == device.preferences.presencenotpresent then
@@ -278,8 +265,8 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured presence value received')
           end
-          
-        elseif dtype == 'Sound' then  
+
+        elseif dtype == 'Sound' then
           local numvalue = tonumber(value)
           if numvalue then
             log.debug ('Sound value received:', numvalue)
@@ -294,8 +281,8 @@ local function process_message(topic, msg)
           else
             log.warn('Invalid sound value received (NaN)');
           end
-         
-        elseif dtype == 'Water' then  
+
+        elseif dtype == 'Water' then
           if value == device.preferences.waterwet then
             device:emit_event(capabilities.waterSensor.water.wet())
           elseif value == device.preferences.waterdry then
@@ -303,14 +290,13 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured water value received')
           end
-          
+
         elseif dtype == 'Temperature' then
-        
           local tempunit = 'C'
           if device.preferences.dtempunit == 'fahrenheit' then
             tempunit = 'F'
           end
-          
+
           value = tonumber(value)
           local tempvalue = value
           if device.preferences.rtempunit == 'fahrenheit' then
@@ -318,44 +304,22 @@ local function process_message(topic, msg)
               tempvalue = stutils.f_to_c(value)
             end
           elseif device.preferences.dtempunit == 'fahrenheit' then
-              tempvalue = stutils.c_to_f(value)
+            tempvalue = stutils.c_to_f(value)
           end
-          
+
           device:emit_event(capabilities.temperatureMeasurement.temperature({value = tempvalue, unit = tempunit}))
           device:emit_event(capabilities.thermostatHeatingSetpoint.heatingSetpoint({value = tempvalue, unit = tempunit}))
-          
+
         elseif dtype == 'Humidity' then
           value = tonumber(value)
           if type(value) == 'number' then
             device:emit_event(capabilities.relativeHumidityMeasurement.humidity(value))
           end
-          
-        elseif dtype == 'Energy' then
-          device:emit_event(capabilities.energyMeter.energy({value = tonumber(value), unit = device.preferences.eunits }))
-          
-          if device:supports_capability_by_id('powerMeter') then
-            local powervalue = getJSONElement(device.preferences.powerkey, msg)
-            if type(powervalue) == 'number' then
-              if device.preferences.punits == 'mwatts' then
-                powervalue = math.floor(powervalue / 1000 * 1000000) / 1000000
-              elseif device.preferences.punits == 'kwatts' then
-                powervalue = math.floor(powervalue * 1000 * 1000000) / 1000000
-              end
-              device:emit_event(capabilities.powerMeter.power(powervalue))
-            end
-          end
-          
-        elseif dtype == 'CO2' then
-          value = tonumber(value)
-          if type(value) == 'number' then
-            device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(value))
-          end
-          
+
         elseif dtype == 'Text' then
           device:emit_event(cap_text.text(value))
-          
+
         elseif dtype == 'Numeric' then
-        
           local numval, unitval
           if device.preferences.format == 'json' then
             numval = tonumber(value)
@@ -363,8 +327,8 @@ local function process_message(topic, msg)
           else
             numval, unitval = value:match('([%d%.%-]+) (.+)')
             if not numval then
-                numval = tonumber(value)
-                unitval = ' '
+              numval = tonumber(value)
+              unitval = ' '
             else
               numval = tonumber(numval)
             end
@@ -372,12 +336,11 @@ local function process_message(topic, msg)
 
           if type(numval) ~= 'number' then; return; end
           if type(unitval) ~= 'string' then; unitval = ' '; end
-          
+
           device:emit_event(cap_numfield.numberval(numval))
           device:emit_event(cap_unitfield.unittext(unitval))
-          
+
         elseif dtype == 'Shade' then
-        
           local numvalue = tonumber(value)
           if numvalue then
             device:emit_event(capabilities.windowShadeLevel.shadeLevel(numvalue))
@@ -399,7 +362,7 @@ local function process_message(topic, msg)
               device:emit_event(capabilities.windowShade.windowShade('partially open'))
             end
           end
-        
+
         elseif dtype == 'Battery' then
           value = tonumber(value)
           if type(value) == 'number' then
@@ -408,7 +371,7 @@ local function process_message(topic, msg)
               device:emit_event(capabilities.battery.battery(value))
             end
           end
-          
+
         elseif dtype == 'Robot' then
           if value == device.preferences.robotstart then
             device:emit_event(capabilities.robotCleanerMovement.robotCleanerMovement('cleaning'))
@@ -423,11 +386,36 @@ local function process_message(topic, msg)
             device:emit_event(capabilities.robotCleanerMovement.robotCleanerMovement('charging'))
             device:emit_event(capabilities.robotCleanerCleaningMode.robotCleanerCleaningMode('stop'))
           end
-          
         end
         
       elseif dtype == 'MotionPlus' then
         motionplus(device, msg)
+      --elseif dtype == 'Energy' then
+        --device:emit_event(capabilities.energyMeter.energy({value = tonumber(value), unit = device.preferences.eunits }))
+        --if device:supports_capability_by_id('powerMeter') then
+        --local powervalue = getJSONElement(device.preferences.powerkey, msg)
+        --if type(powervalue) == 'number' then
+        --if device.preferences.punits == 'mwatts' then
+        --powervalue = math.floor(powervalue / 1000 * 1000000) / 1000000
+        --elseif device.preferences.punits == 'kwatts' then
+        --powervalue = math.floor(powervalue * 1000 * 1000000) / 1000000
+        --end
+        --device:emit_event(capabilities.powerMeter.power(powervalue))
+        --end
+        --end
+      --elseif dtype == 'CO2' then
+        --value = tonumber(value)
+        --if type(value) == 'number' then
+        --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(value))
+        --end
+      --elseif dtype == 'Acceleration' then
+        --if value == device.preferences.accelactive then
+        --device:emit_event(capabilities.accelerationSensor.acceleration.active())
+        --elseif value == device.preferences.accelinactive then
+        --device:emit_event(capabilities.accelerationSensor.acceleration.inactive())
+        --else
+        --log.warn ('Unconfigured acceleration value received')
+        --end
       else
         log.warn ('No valid value found in message; ignoring')
       end
@@ -436,5 +424,5 @@ local function process_message(topic, msg)
 end
 
 return	{
-					process_message = process_message
-				}
+        process_message = process_message
+}

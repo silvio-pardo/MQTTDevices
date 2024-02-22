@@ -11,7 +11,9 @@ components:
     categories:
       - name: Siren
 metadata:
+  vid: cdde6f5e-cf33-3095-bcd7-dcdfb9d8d71d
   ocfDeviceType: x.com.st.d.siren
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

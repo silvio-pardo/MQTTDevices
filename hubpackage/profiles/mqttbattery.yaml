@@ -10,6 +10,9 @@ components:
         version: 1
     categories:
       - name: Others
+metadata:
+  vid: db6345b3-8fdf-3b76-b9f2-9e66055de530
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

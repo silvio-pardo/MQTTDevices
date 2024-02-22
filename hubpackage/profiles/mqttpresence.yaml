@@ -11,7 +11,9 @@ components:
     categories:
       - name: PresenceSensor
 metadata:
+  vid: 9b6497a7-ce11-3b2d-aa75-3acc01153c84
   ocfDeviceType: x.com.st.d.sensor.presence
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

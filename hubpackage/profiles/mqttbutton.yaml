@@ -13,7 +13,7 @@ components:
     categories:
       - name: RemoteController
 metadata:
-  vid: 63bd0088-6b3b-3d8e-af7a-2ae48dd9b6f6
+  vid: 3f0bdf7d-7a5a-3eab-ae7b-3cbe645e6901
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"

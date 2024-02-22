@@ -9,7 +9,10 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Motion
+      - name: MotionSensor
+metadata:
+  vid: 75733f95-cc9a-326a-b295-ccbd8d4ce79f
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

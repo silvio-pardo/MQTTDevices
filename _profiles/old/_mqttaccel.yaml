@@ -1,3 +1,4 @@
+#TODO serve? device multipurpose
 name: mqttaccel
 components:
   - id: main
@@ -9,7 +10,10 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Motion
+      - name: MotionSensor
+metadata:
+  vid: 80949c7b-e783-3f5a-b6cf-42664a13e757
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

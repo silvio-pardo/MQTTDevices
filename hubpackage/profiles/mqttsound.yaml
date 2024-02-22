@@ -12,6 +12,9 @@ components:
         version: 1
     categories:
       - name: Speaker
+metadata:
+  vid: 9cf895ae-6184-38b8-b7fc-506843af4808
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

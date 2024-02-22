@@ -1,3 +1,4 @@
+#TODO trasformare in rilevatore qualità aria
 name: mqttCO2
 components:
   - id: main
@@ -15,7 +16,9 @@ components:
     categories:
       - name: AirQualityDetector
 metadata:
+  vid: 20c85e47-8ff3-3c04-86b1-23455e7663da
   ocfDeviceType: x.com.st.d.airqualitysensor
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

@@ -273,37 +273,6 @@ local function handle_custompublish(driver, device, command)
 
 end
 
-local function handle_setenergy(driver, device, command)
-
-  log.info (string.format('Energy value set to %s', command.args.energyval))
-  device:emit_event(cap_setenergy.energyval({value = command.args.energyval, unit = device.preferences.eunitsset}))
-  device:emit_event(capabilities.energyMeter.energy({value = command.args.energyval, unit=device.preferences.eunitsset}))
-
-  if device.preferences.epublish == true then
-    subs.publish_message(device, tostring(command.args.energyval), device.preferences.epubtopic)
-  end
-
-end
-
-local function handle_setpower(driver, device, command)
-
-  log.info (string.format('Power value set to %s', command.args.powerval))
-  
-  local disp_multiplier = 1
-  if device.preferences.punitsset == 'mwatts' then
-    disp_multiplier = .001
-  elseif device.preferences.punitsset == 'kwatts' then
-    disp_multiplier = 1000
-  end
-  device:emit_event(cap_setpower.powerval(command.args.powerval * disp_multiplier))
-  device:emit_event(capabilities.powerMeter.power(command.args.powerval * disp_multiplier))
-
-  if device.preferences.ppublish == true then
-    subs.publish_message(device, tostring(command.args.powerval), device.preferences.ppubtopic)
-  end
-
-end
-
 local function handle_setnumeric(driver, device, command)
 
   if command.command == 'setNumber' then
@@ -425,6 +394,35 @@ local function handle_reset_energy(driver, device, command)
   device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
 
 end
+local function handle_setenergy(driver, device, command)
+
+  log.info (string.format('Energy value set to %s', command.args.energyval))
+  device:emit_event(cap_setenergy.energyval({value = command.args.energyval, unit = device.preferences.eunitsset}))
+  device:emit_event(capabilities.energyMeter.energy({value = command.args.energyval, unit=device.preferences.eunitsset}))
+
+  if device.preferences.epublish == true then
+    subs.publish_message(device, tostring(command.args.energyval), device.preferences.epubtopic)
+  end
+
+end
+local function handle_setpower(driver, device, command)
+
+  log.info (string.format('Power value set to %s', command.args.powerval))
+
+  local disp_multiplier = 1
+  if device.preferences.punitsset == 'mwatts' then
+    disp_multiplier = .001
+  elseif device.preferences.punitsset == 'kwatts' then
+    disp_multiplier = 1000
+  end
+  device:emit_event(cap_setpower.powerval(command.args.powerval * disp_multiplier))
+  device:emit_event(capabilities.powerMeter.power(command.args.powerval * disp_multiplier))
+
+  if device.preferences.ppublish == true then
+    subs.publish_message(device, tostring(command.args.powerval), device.preferences.ppubtopic)
+  end
+
+end
 --end unused
 
 return  {
@@ -439,11 +437,8 @@ return  {
           handle_tempset = handle_tempset,
           handle_humidityset = handle_humidityset,
           handle_custompublish = handle_custompublish,
-          handle_setenergy = handle_setenergy,
-          handle_setpower = handle_setpower,
           handle_setnumeric = handle_setnumeric,
           handle_shade = handle_shade,
           handle_robot = handle_robot,
           handle_fanspeed = handle_fanspeed,
-        }
-        
+}

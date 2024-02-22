@@ -9,7 +9,10 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Other
+      - name: Others
+metadata:
+  vid: 55f75446-29aa-3572-93cc-2ac5508230d3
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

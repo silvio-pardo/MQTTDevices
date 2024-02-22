@@ -24,7 +24,6 @@ typemeta =  {
               ['Motion']       = { ['profile'] = 'mqttmotion',        ['created'] = 0, ['switch'] = false },
               ['Alarm']        = { ['profile'] = 'mqttalarm',         ['created'] = 0, ['switch'] = false },
               ['Dimmer']       = { ['profile'] = 'mqttdimmer',        ['created'] = 0, ['switch'] = true },
-              ['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
               ['Lock']         = { ['profile'] = 'mqttlock',          ['created'] = 0, ['switch'] = false },
               ['Presence']     = { ['profile'] = 'mqttpresence',      ['created'] = 0, ['switch'] = false },
               ['Sound']        = { ['profile'] = 'mqttsound',         ['created'] = 0, ['switch'] = false },
@@ -32,14 +31,15 @@ typemeta =  {
               ['Temperature']  = { ['profile'] = 'mqtttemp',          ['created'] = 0, ['switch'] = false },
               ['Humidity']     = { ['profile'] = 'mqtthumidity',      ['created'] = 0, ['switch'] = false },
               ['MotionPlus']   = { ['profile'] = 'mqttmotion_plus',   ['created'] = 0, ['switch'] = false },
-              ['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
               ['Text']         = { ['profile'] = 'mqtttext',          ['created'] = 0, ['switch'] = false },
               ['Numeric']      = { ['profile'] = 'mqttnumeric',       ['created'] = 0, ['switch'] = false },
-              ['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
               ['Shade']        = { ['profile'] = 'mqttshade',        ['created'] = 0, ['switch'] = false },
               ['Battery']      = { ['profile'] = 'mqttbattery',       ['created'] = 0, ['switch'] = false },
               ['Robot']        = { ['profile'] = 'mqttrobot',         ['created'] = 0, ['switch'] = false },
               ['Fan']          = { ['profile'] = 'mqttfan',           ['created'] = 0, ['switch'] = true },
+            --['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
+            --['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
+            --['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
             }
 
 -- Module variables
@@ -49,7 +49,7 @@ local clearcreatemsg_timer
 local shutdown_requested = false
 
 local MASTERPROFILE = 'mqttcreator'
-local MASTERLABEL = 'MQTT Device Handler'
+local MASTERLABEL = 'MQTT Device Handler V2'
 
 local CREATECAPID  = 'colorborder61348.createmqttdev'
 
@@ -61,10 +61,11 @@ cap_topiclist = capabilities["colorborder61348.topiclist"]
 cap_custompublish = capabilities["colorborder61348.mqttpublish"]
 
 cap_text = capabilities["colorborder61348.mqtttext2"]
-cap_setenergy = capabilities["colorborder61348.setenergy"]
-cap_setpower = capabilities["colorborder61348.setpower"]
 cap_numfield = capabilities["colorborder61348.numberfield"]
 cap_unitfield = capabilities["colorborder61348.unitfield"]
+
+--cap_setenergy = capabilities["colorborder61348.setenergy"]
+--cap_setpower = capabilities["colorborder61348.setpower"]
 
 local function schedule_subscribe()
 
@@ -109,14 +110,9 @@ local function create_MQTT_client(device)
     end,
 
     message = function(msg)
+      log.info("received:", msg, type(msg))
       assert(client:acknowledge(msg))
-
-      --log.info("received:", msg, type(msg))
-      -- example msg:  PUBLISH{payload="Hello world", topic="testmqtt/pimylifeup", dup=false, type=3, qos=0, retain=false}
-
       procmsg.process_message(msg.topic, msg.payload)
-
-
     end,
 
     error = function(err)
@@ -275,9 +271,6 @@ local function device_added (driver, device)
       device:emit_event(capabilities.button.supportedButtonValues(supported_values))
     elseif dtype == 'Alarm' then
       device:emit_event(capabilities.alarm.alarm('off'))
-      
-    elseif dtype == 'Acceleration' then
-      device:emit_event(capabilities.accelerationSensor.acceleration('inactive'))
     elseif dtype == 'Lock' then
       device:emit_event(capabilities.lock.lock('unlocked'))
     elseif dtype == 'Presence' then
@@ -292,19 +285,11 @@ local function device_added (driver, device)
       device:emit_event(cap_tempset.vtemp({value=20, unit='C'}))
     elseif dtype == 'Humidity' then
       device:emit_event(capabilities.relativeHumidityMeasurement.humidity(0))
-    elseif dtype == 'Energy' then
-      device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
-      device:emit_event(cap_reset.cmdSelect(' '))
-      device:emit_event(capabilities.powerMeter.power(0))
-      device:emit_event(cap_setenergy.energyval(0))
-      device:emit_event(cap_setpower.powerval(0))
     elseif dtype == 'Text' then
       device:emit_event(cap_text.text(' '))
     elseif dtype == 'Numeric' then
       device:emit_event(cap_numfield.numberval(0))
       device:emit_event(cap_unitfield.unittext(' '))
-    elseif dtype == 'CO2' then
-      device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(0))
     elseif dtype == 'Shade' then
       device:emit_event(capabilities.windowShade.windowShade('open'))
       device:emit_event(capabilities.windowShadeLevel.shadeLevel(100))
@@ -312,7 +297,16 @@ local function device_added (driver, device)
       device:emit_event(capabilities.battery.battery(100))
     elseif dtype == 'Fan' then
       device:emit_event(capabilities.fanSpeed.fanSpeed(0))
-      
+    --elseif dtype == 'Energy' then
+      --device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
+      --device:emit_event(cap_reset.cmdSelect(' '))
+      --device:emit_event(capabilities.powerMeter.power(0))
+      --device:emit_event(cap_setenergy.energyval(0))
+      --device:emit_event(cap_setpower.powerval(0))
+    --elseif dtype == 'CO2' then
+      --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(0))
+    --elseif dtype == 'Acceleration' then
+      --device:emit_event(capabilities.accelerationSensor.acceleration('inactive'))
     end
 
     creator_device:emit_event(cap_createdev.deviceType('Device created'))
@@ -435,9 +429,9 @@ local function discovery_handler(driver, _, should_continue)
     log.info("Creating MQTT Creator device")
 
     local MFG_NAME = 'SmartThings Community'
-    local MODEL = 'MQTTCreator'
+    local MODEL = 'mqttcreator'
     local VEND_LABEL = MASTERLABEL           --update; change for testing
-    local ID = 'MQTTDev_Master'               --change for testing
+    local ID = 'MQTTDev_Master_v2'               --change for testing
     local PROFILE = MASTERPROFILE           --update; change for testing
 
     -- Create master creator device
@@ -464,7 +458,7 @@ end
 -----------------------------------------------------------------------
 --        DRIVER MAINLINE: Build driver context table
 -----------------------------------------------------------------------
-thisDriver = Driver("MQTT Devices", {
+thisDriver = Driver("MQTT Devices V2.0", {
   discovery = discovery_handler,
   lifecycle_handlers = {
     init = device_init,
@@ -476,8 +470,8 @@ thisDriver = Driver("MQTT Devices", {
   },
   driver_lifecycle = shutdown_handler,
   capability_handlers = {
-    [cap_createdev_latest.ID] = {
-      [cap_createdev_latest.commands.setDeviceType.NAME] = cmd.handle_createdevice,
+    [cap_createdev.ID] = {
+      [cap_createdev.commands.setDeviceType.NAME] = cmd.handle_createdevice,
     },
     [capabilities.refresh.ID] = {
       [capabilities.refresh.commands.refresh.NAME] = cmd.handle_refresh,
@@ -508,9 +502,6 @@ thisDriver = Driver("MQTT Devices", {
     [capabilities.audioVolume.ID] = {
       [capabilities.audioVolume.commands.setVolume.NAME] = cmd.handle_volume,
     },
-    [capabilities.energyMeter.ID] = {
-      [capabilities.energyMeter.commands.resetEnergyMeter.NAME] = cmd.handle_reset,
-    },
     [capabilities.windowShade.ID] = {
       [capabilities.windowShade.commands.open.NAME] = cmd.handle_shade,
       [capabilities.windowShade.commands.close.NAME] = cmd.handle_shade,
@@ -521,12 +512,6 @@ thisDriver = Driver("MQTT Devices", {
     },
     [cap_custompublish.ID] = {
       [cap_custompublish.commands.publish.NAME] = cmd.handle_custompublish,
-    },
-    [cap_setenergy.ID] = {
-      [cap_setenergy.commands.setEnergy.NAME] = cmd.handle_setenergy,
-    },
-    [cap_setpower.ID] = {
-      [cap_setpower.commands.setPower.NAME] = cmd.handle_setpower,
     },
     [cap_numfield.ID] = {
       [cap_numfield.commands.setNumber.NAME] = cmd.handle_setnumeric,
@@ -543,6 +528,15 @@ thisDriver = Driver("MQTT Devices", {
     [capabilities.fanSpeed.ID] = {
       [capabilities.fanSpeed.commands.setFanSpeed.NAME] = cmd.handle_fanspeed,
     },
+    --[capabilities.energyMeter.ID] = {
+    --[capabilities.energyMeter.commands.resetEnergyMeter.NAME] = cmd.handle_reset,
+    --},
+    --[cap_setpower.ID] = {
+    --[cap_setpower.commands.setPower.NAME] = cmd.handle_setpower,
+    --},
+    --[cap_setenergy.ID] = {
+      --[cap_setenergy.commands.setEnergy.NAME] = cmd.handle_setenergy,
+    --},
   }
 })
 

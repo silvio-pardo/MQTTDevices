@@ -13,7 +13,9 @@ components:
     categories:
       - name: Switch
 metadata:
+  vid: 9de5aa75-5fc5-3e44-851a-5798964235e1
   ocfDeviceType: oic.d.switch
+  mnmn: SmartThingsCommunity
 preferences:
   - title: "Max Dimmer Value"
     name: dimmermax
