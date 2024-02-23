@@ -9,7 +9,7 @@
     },
     "detailView": [
         {
-            "label": "{{i18n.label}}",
+            "label": "Number Field",
             "displayType": "numberField",
             "numberField": {
                 "value": "numberval.value",

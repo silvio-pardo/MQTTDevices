@@ -9,7 +9,7 @@
     },
     "detailView": [
         {
-            "label": "{{i18n.label}}",
+            "label": "State",
             "displayType": "state",
             "state": {
                 "label": "{{text.value}}"

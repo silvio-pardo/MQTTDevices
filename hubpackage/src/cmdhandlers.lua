@@ -152,6 +152,10 @@ local function handle_dimmer(driver, device, command)
   end
 end
 
+local function handle_color_temp(driver, device, command)
+  log.info ('Color Temp value changed to ', command.args.level)
+end
+
 local function handle_fanspeed(driver, device, command)
 
   log.info ('Fan speed value changed to ', command.args.speed)
@@ -441,4 +445,5 @@ return  {
           handle_shade = handle_shade,
           handle_robot = handle_robot,
           handle_fanspeed = handle_fanspeed,
+          handle_color_temp = handle_color_temp
 }

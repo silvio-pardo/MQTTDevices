@@ -5,17 +5,12 @@
     },
     "detailView": [
         {
-            "label": "{{i18n.label}}",
+            "label": "Select the device to create",
             "displayType": "list",
             "list": {
                 "command": {
                     "name": "setDeviceType",
                     "alternatives": [
-                        {
-                            "key": "Acceleration",
-                            "value": "Acceleration Sensor",
-                            "type": "active"
-                        },
                         {
                             "key": "Alarm",
                             "value": "Alarm",
@@ -32,11 +27,6 @@
                             "type": "active"
                         },
                         {
-                            "key": "CO2",
-                            "value": "CO2 Measurement",
-                            "type": "active"
-                        },
-                        {
                             "key": "Contact",
                             "value": "Contact Sensor",
                             "type": "active"
@@ -47,8 +37,8 @@
                             "type": "active"
                         },
                         {
-                            "key": "Energy",
-                            "value": "Energy",
+                            "key": "Dimmer Temp Variable",
+                            "value": "DimmerTempVar",
                             "type": "active"
                         },
                         {
@@ -129,11 +119,6 @@
                     "valueType": "string",
                     "alternatives": [
                         {
-                            "key": "Acceleration",
-                            "value": "Acceleration Sensor",
-                            "type": "active"
-                        },
-                        {
                             "key": "Alarm",
                             "value": "Alarm",
                             "type": "active"
@@ -149,11 +134,6 @@
                             "type": "active"
                         },
                         {
-                            "key": "CO2",
-                            "value": "CO2 Measurement",
-                            "type": "active"
-                        },
-                        {
                             "key": "Contact",
                             "value": "Contact Sensor",
                             "type": "active"
@@ -164,8 +144,8 @@
                             "type": "active"
                         },
                         {
-                            "key": "Energy",
-                            "value": "Energy",
+                            "key": "Dimmer Temp Variable",
+                            "value": "DimmerTempVar",
                             "type": "active"
                         },
                         {

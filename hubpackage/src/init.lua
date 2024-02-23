@@ -18,28 +18,29 @@ client_reset_inprogress = false
 creator_device = {}           -- referenced by other modules
 
 typemeta =  {
-              ['Switch']       = { ['profile'] = 'mqttswitch',       ['created'] = 0, ['switch'] = true  },
-              ['Button']       = { ['profile'] = 'mqttbutton',        ['created'] = 0, ['switch'] = false },
-              ['Contact']      = { ['profile'] = 'mqttcontact',       ['created'] = 0, ['switch'] = false },
-              ['Motion']       = { ['profile'] = 'mqttmotion',        ['created'] = 0, ['switch'] = false },
-              ['Alarm']        = { ['profile'] = 'mqttalarm',         ['created'] = 0, ['switch'] = false },
-              ['Dimmer']       = { ['profile'] = 'mqttdimmer',        ['created'] = 0, ['switch'] = true },
-              ['Lock']         = { ['profile'] = 'mqttlock',          ['created'] = 0, ['switch'] = false },
-              ['Presence']     = { ['profile'] = 'mqttpresence',      ['created'] = 0, ['switch'] = false },
-              ['Sound']        = { ['profile'] = 'mqttsound',         ['created'] = 0, ['switch'] = false },
-              ['Water']        = { ['profile'] = 'mqttwater',         ['created'] = 0, ['switch'] = false },
-              ['Temperature']  = { ['profile'] = 'mqtttemp',          ['created'] = 0, ['switch'] = false },
-              ['Humidity']     = { ['profile'] = 'mqtthumidity',      ['created'] = 0, ['switch'] = false },
-              ['MotionPlus']   = { ['profile'] = 'mqttmotion_plus',   ['created'] = 0, ['switch'] = false },
-              ['Text']         = { ['profile'] = 'mqtttext',          ['created'] = 0, ['switch'] = false },
-              ['Numeric']      = { ['profile'] = 'mqttnumeric',       ['created'] = 0, ['switch'] = false },
-              ['Shade']        = { ['profile'] = 'mqttshade',        ['created'] = 0, ['switch'] = false },
-              ['Battery']      = { ['profile'] = 'mqttbattery',       ['created'] = 0, ['switch'] = false },
-              ['Robot']        = { ['profile'] = 'mqttrobot',         ['created'] = 0, ['switch'] = false },
-              ['Fan']          = { ['profile'] = 'mqttfan',           ['created'] = 0, ['switch'] = true },
-            --['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
-            --['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
-            --['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
+  ['Switch']        = { ['profile'] = 'mqttswitch',        ['created'] = 0, ['switch'] = true  },
+  ['Button']        = { ['profile'] = 'mqttbutton',        ['created'] = 0, ['switch'] = false },
+  ['Contact']       = { ['profile'] = 'mqttcontact',       ['created'] = 0, ['switch'] = false },
+  ['Motion']        = { ['profile'] = 'mqttmotion',        ['created'] = 0, ['switch'] = false },
+  ['Alarm']         = { ['profile'] = 'mqttalarm',         ['created'] = 0, ['switch'] = false },
+  ['Dimmer']        = { ['profile'] = 'mqttdimmer',        ['created'] = 0, ['switch'] = true },
+  ['Lock']          = { ['profile'] = 'mqttlock',          ['created'] = 0, ['switch'] = false },
+  ['Presence']      = { ['profile'] = 'mqttpresence',      ['created'] = 0, ['switch'] = false },
+  ['Sound']         = { ['profile'] = 'mqttsound',         ['created'] = 0, ['switch'] = false },
+  ['Water']         = { ['profile'] = 'mqttwater',         ['created'] = 0, ['switch'] = false },
+  ['Temperature']   = { ['profile'] = 'mqtttemp',          ['created'] = 0, ['switch'] = false },
+  ['Humidity']      = { ['profile'] = 'mqtthumidity',      ['created'] = 0, ['switch'] = false },
+  ['MotionPlus']    = { ['profile'] = 'mqttmotion_plus',   ['created'] = 0, ['switch'] = false },
+  ['Text']          = { ['profile'] = 'mqtttext',          ['created'] = 0, ['switch'] = false },
+  ['Numeric']       = { ['profile'] = 'mqttnumeric',       ['created'] = 0, ['switch'] = false },
+  ['Shade']         = { ['profile'] = 'mqttshade',         ['created'] = 0, ['switch'] = false },
+  ['Battery']       = { ['profile'] = 'mqttbattery',       ['created'] = 0, ['switch'] = false },
+  ['Robot']         = { ['profile'] = 'mqttrobot',         ['created'] = 0, ['switch'] = false },
+  ['Fan']           = { ['profile'] = 'mqttfan',           ['created'] = 0, ['switch'] = true },
+  ['DimmerTempVar'] = { ['profile'] = 'mqttdimmer_tempvariable',['created'] = 0, ['switch'] = true },
+--['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
+--['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
+--['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
             }
 
 -- Module variables
@@ -253,6 +254,9 @@ local function device_added (driver, device)
     if dtype == 'Switch' then
       device:emit_event(capabilities.switch.switch('off'))
     elseif dtype == 'Dimmer' then
+      device:emit_event(capabilities.switchLevel.level(0))
+      device:emit_event(capabilities.switch.switch('off'))
+    elseif dtype == 'DimmerTempVar' then
       device:emit_event(capabilities.switchLevel.level(0))
       device:emit_event(capabilities.switch.switch('off'))
     elseif dtype == 'Contact' then
@@ -485,6 +489,9 @@ thisDriver = Driver("MQTT Devices V2.0", {
     },
     [capabilities.switchLevel.ID] = {
       [capabilities.switchLevel.commands.setLevel.NAME] = cmd.handle_dimmer,
+    },
+    [capabilities.colorTemperature.ID] = {
+      [capabilities.colorTemperature.commands.setColorTemperature.NAME] = cmd.handle_color_temp,
     },
     [capabilities.momentary.ID] = {
       [capabilities.momentary.commands.push.NAME] = cmd.handle_button,

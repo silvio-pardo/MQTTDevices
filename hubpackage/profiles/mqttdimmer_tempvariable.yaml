@@ -1,10 +1,12 @@
-name: mqttdimmer
+name: mqttdimmer_tempvariable
 components:
   - id: main
     capabilities:
       - id: switchLevel
         version: 1
       - id: switch
+        version: 1
+      - id: colorTemperature
         version: 1
       - id: colorborder61348.status
         version: 1
@@ -13,9 +15,7 @@ components:
     categories:
       - name: Switch
 metadata:
-  vid: 9de5aa75-5fc5-3e44-851a-5798964235e1
   ocfDeviceType: oic.d.switch
-  mnmn: SmartThingsCommunity
 preferences:
   - title: "Max Dimmer Value"
     name: dimmermax
