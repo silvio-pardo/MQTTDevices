@@ -1,4 +1,4 @@
-name: mqttdimmer.tempvariable
+name: mqttdimmer.tempvariable.v1
 components:
   - id: main
     capabilities:
@@ -8,13 +8,14 @@ components:
         version: 1
       - id: colorTemperature
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
     categories:
       - name: Switch
 metadata:
+  vid: 3f5913d5-0949-3f4f-bd2b-b04daf7526ff
   ocfDeviceType: oic.d.switch
 preferences:
   - title: "Subscribe Topic"
@@ -85,7 +86,7 @@ preferences:
       stringType: text
       default: "off"
   - title: "Expected Temperature Message Format"
-    name: format
+    name: formatTemp
     description: "Select type"
     required: true
     preferenceType: enumeration

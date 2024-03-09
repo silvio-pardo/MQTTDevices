@@ -1,4 +1,4 @@
-name: mqttdimmer
+name: mqttdimmer.v1
 components:
   - id: main
     capabilities:
@@ -6,7 +6,7 @@ components:
         version: 1
       - id: switch
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -15,6 +15,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.switch
   mnmn: SmartThingsCommunity
+  vid: 004ebd4e-001b-3247-9e47-6a3fee31c1c3
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

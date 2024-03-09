@@ -1,4 +1,4 @@
-name: mqttmotion.plus
+name: mqttmotion.plus.v1
 components:
   - id: main
     capabilities:
@@ -8,7 +8,7 @@ components:
         version: 1
       - id: battery
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -17,6 +17,7 @@ components:
 metadata:
   ocfDeviceType: x.com.st.d.sensor.motion
   mnmn: SmartThingsCommunity
+  vid: 7446d0ec-bb87-3bce-a6b1-03176fe44f21
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

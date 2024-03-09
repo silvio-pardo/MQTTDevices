@@ -1,4 +1,4 @@
-name: mqtttemp
+name: mqtttemp.v1
 components:
   - id: main
     capabilities:
@@ -14,7 +14,7 @@ components:
           values:
             - key: "temperature.value"
               range: [-120, 200]
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -23,6 +23,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.thermostat
   mnmn: SmartThingsCommunity
+  vid: 26728de3-9df0-380d-9e14-e7dc860806f6
 preferences:
   - title: "Received Temperature Units"
     name: rtempunit

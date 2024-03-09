@@ -1,5 +1,5 @@
 {
-    "name": "mqttpublish.v1",
+    "name": "mqttpublishV1",
     "ephemeral": false,
     "attributes": {},
     "commands": {

@@ -50,21 +50,21 @@ local initialized = false
 local clearcreatemsg_timer
 local shutdown_requested = false
 
-local MASTERPROFILE = 'mqttcreator.connector'
+local MASTERPROFILE = 'mqttconnector.creator.v1'
 local MASTERLABEL = 'MQTT Server Connector'
 
-local CREATECAPID  = 'colorborder61348.createmqttdev.v1'
+local CREATECAPID  = 'colorborder61348.createmqttdevv1'
 
 -- Custom Capabilities
 cap_createdev = capabilities[CREATECAPID]
 
-cap_status = capabilities["colorborder61348.status.v1"]
-cap_topiclist = capabilities["colorborder61348.topiclist.v1"]
-cap_custompublish = capabilities["colorborder61348.mqttpublish.v1"]
+cap_status = capabilities["colorborder61348.statusv1"]
+cap_topiclist = capabilities["colorborder61348.topiclistv1"]
+cap_custompublish = capabilities["colorborder61348.mqttpublishv1"]
 
-cap_text = capabilities["colorborder61348.mqtttext.v1"]
-cap_numfield = capabilities["colorborder61348.numberfield.v1"]
-cap_unitfield = capabilities["colorborder61348.unitfield.v1"]
+cap_text = capabilities["colorborder61348.mqtttextv1"]
+cap_numfield = capabilities["colorborder61348.numberfieldv1"]
+cap_unitfield = capabilities["colorborder61348.unitfieldv1"]
 
 --cap_setenergy = capabilities["colorborder61348.setenergy"]
 --cap_setpower = capabilities["colorborder61348.setpower"]
@@ -260,6 +260,7 @@ local function device_added (driver, device)
     elseif dtype == 'DimmerTempVariable' then
       device:emit_event(capabilities.switchLevel.level(0))
       device:emit_event(capabilities.switch.switch('off'))
+      device:emit_event(capabilities.colorTemperature.colorTemperature(1))
     elseif dtype == 'Contact' then
       device:emit_event(capabilities.contactSensor.contact('closed'))
     elseif dtype == 'MotionPlus' then

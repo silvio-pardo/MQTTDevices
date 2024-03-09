@@ -1,4 +1,4 @@
-name: mqttshade
+name: mqttshade.v1
 components:
   - id: main
     capabilities:
@@ -6,7 +6,7 @@ components:
         version: 1
       - id: windowShadeLevel
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -15,6 +15,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.blind
   mnmn: SmartThingsCommunity
+  vid: eb701912-2627-3dd8-b9f2-16bb33db24de
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

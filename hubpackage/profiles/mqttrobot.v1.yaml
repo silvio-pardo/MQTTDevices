@@ -1,4 +1,4 @@
-name: mqttrobot
+name: mqttrobot.v1
 components:
   - id: main
     capabilities:
@@ -6,7 +6,7 @@ components:
         version: 1
       - id: robotCleanerMovement
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -15,6 +15,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.robotcleaner
   mnmn: SmartThingsCommunity
+  vid: d9217b8d-e09e-35aa-96d7-c3da53436b80
 preferences:
   - title: "Subscribe Basic Control Topic"
     name: subTopic

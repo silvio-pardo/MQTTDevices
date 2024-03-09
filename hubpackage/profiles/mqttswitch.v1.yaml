@@ -1,10 +1,10 @@
-name: mqttswitch
+name: mqttswitch.v1
 components:
   - id: main
     capabilities:
       - id: switch
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -12,6 +12,7 @@ components:
       - name: Switch
 metadata:
   mnmn: SmartThingsCommunity
+  vid: 470cf4d1-0ec2-3074-b884-3ffbdc4ef8ce
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

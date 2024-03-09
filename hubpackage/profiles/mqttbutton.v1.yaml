@@ -1,4 +1,4 @@
-name: mqttbutton
+name: mqttbutton.v1
 components:
   - id: main
     capabilities:
@@ -6,13 +6,14 @@ components:
         version: 1
       - id: button
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
     categories:
       - name: RemoteController
 metadata:
+  vid: f1562018-1588-3880-a1a3-4bc9a577dff2
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"

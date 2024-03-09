@@ -1,7 +1,7 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "unitfield.v1",
+    "name": "unitfieldV1",
     "ephemeral": false,
     "attributes": {
         "unittext": {

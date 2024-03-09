@@ -1,16 +1,17 @@
-name: mqttcontact
+name: mqttcontact.v1
 components:
   - id: main
     capabilities:
       - id: contactSensor
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
     categories:
       - name: ContactSensor
 metadata:
+  vid: fa26d8b0-3f58-3380-82db-4d0d0856e79d
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"

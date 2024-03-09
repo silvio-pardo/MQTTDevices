@@ -1,10 +1,10 @@
-name: mqtthumidity
+name: mqtthumidity.v1
 components:
   - id: main
     capabilities:
       - id: relativeHumidityMeasurement
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -12,6 +12,7 @@ components:
       - name: HumiditySensor
 metadata:
   mnmn: SmartThingsCommunity
+  vid: e4d785d6-6023-34c6-aaa0-b66e7ad8a912
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

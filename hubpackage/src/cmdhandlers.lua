@@ -3,6 +3,7 @@ local capabilities = require "st.capabilities"
 local socket = require "cosock.socket"
 local json = require "dkjson"
 local subs = require "subscriptions"
+local tools = require("mqtt.tools")
 
 local function handle_refresh(driver, device, command)
   log.info ('Refresh requested')
@@ -154,26 +155,22 @@ end
 
 local function handle_color_temp(driver, device, command)
   log.info ('Color Temp value changed to ', command.args.temperature)
+  local valueTemperature = command.args.temperature
 
-  local dimmerlevel = command.args.level
-  local valueTemperature = command.args.temperatur
+  device:emit_event(capabilities.colorTemperature.colorTemperature(valueTemperature))
 
-  device:emit_event(capabilities.colorTemperature.temperature(valueTemperature))
-
-  if device:supports_capability_by_id('switchLevel') then
-    device:emit_event(capabilities.switchLevel.level(dimmerlevel))
-  end
-
-  if device:supports_capability_by_id('switch') then
-    if dimmerlevel > 0 then
-      device:emit_event(capabilities.switch.switch('on'))
-    else
-      device:emit_event(capabilities.switch.switch('off'))
-    end
-  end
+  percentageTemp = math.floor(math.abs((valueTemperature / 30000) * 100))
+  log.info ('color temperature percentage value:', percentageTemp)
+  convertedValue = math.floor(math.abs((percentageTemp * device.preferences.temperaturemax) / 100)) + device.preferences.temperaturemin
+  log.info ('color temperature converted value:', convertedValue)
 
   if device.preferences.publish == true then
     log.info ('send color temperature change...')
+    if device.preferences.formatTemp == 'json' then
+      subs.publish_message(device, tostring('{ "'.. device.preferences.tempjsonelement ..'":"'..convertedValue..'"}'))
+    else
+      subs.publish_message(device, tostring(convertedValue))
+    end
   end
 end
 

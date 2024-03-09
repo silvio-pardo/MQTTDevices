@@ -1,10 +1,10 @@
-name: mqttwater
+name: mqttwater.v1
 components:
   - id: main
     capabilities:
       - id: waterSensor
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -13,6 +13,7 @@ components:
 metadata:
   ocfDeviceType: x.com.st.d.sensor.moisture
   mnmn: SmartThingsCommunity
+  vid: f9ea51a0-60b8-39cd-b355-bcc053e59658
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

@@ -1,10 +1,10 @@
-name: mqttlock
+name: mqttlock.v1
 components:
   - id: main
     capabilities:
       - id: lock
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -13,6 +13,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.smartlock
   mnmn: SmartThingsCommunity
+  vid: 88522bd1-271c-3e6a-acb5-8a4ea7d57a2a
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

@@ -1,16 +1,17 @@
-name: mqttalarm
+name: mqttalarm.v1
 components:
   - id: main
     capabilities:
       - id: alarm
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
     categories:
       - name: Siren
 metadata:
+  vid: dd4031ad-890c-370b-8de5-a22a345cbe25
   ocfDeviceType: x.com.st.d.siren
   mnmn: SmartThingsCommunity
 preferences:

@@ -1,10 +1,10 @@
-name: mqttbattery
+name: mqttbattery.v1
 components:
   - id: main
     capabilities:
       - id: battery
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -12,6 +12,7 @@ components:
       - name: Others
 metadata:
   mnmn: SmartThingsCommunity
+  vid: dda93176-cbad-3bb6-88ab-707608d7df15
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

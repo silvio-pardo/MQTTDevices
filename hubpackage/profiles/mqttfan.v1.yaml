@@ -1,10 +1,10 @@
-name: mqttfan
+name: mqttfan.v1
 components:
   - id: main
     capabilities:
       - id: fanSpeed
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -13,6 +13,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.fan
   mnmn: SmartThingsCommunity
+  vid: ba80fa6e-eb02-35ed-b6fc-5f928d1b7a80
 preferences:
   - title: "Fan speed value range"
     name: fanspeedrange

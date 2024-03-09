@@ -1,7 +1,7 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "topiclist.v1",
+    "name": "topiclistV1",
     "ephemeral": false,
     "attributes": {
         "topiclist": {

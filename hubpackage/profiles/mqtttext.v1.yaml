@@ -1,10 +1,10 @@
-name: mqtttext
+name: mqtttext.v1
 components:
   - id: main
     capabilities:
-      - id: colorborder61348.mqtttext
+      - id: colorborder61348.mqtttextv1
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -12,6 +12,7 @@ components:
       - name: Others
 metadata:
   mnmn: SmartThingsCommunity
+  vid: 7c04d6d9-fc06-3f7d-ac92-7722b23aa522
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

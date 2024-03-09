@@ -1,10 +1,10 @@
-name: mqttpresence
+name: mqttpresence.v1
 components:
   - id: main
     capabilities:
       - id: presenceSensor
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -13,6 +13,7 @@ components:
 metadata:
   ocfDeviceType: x.com.st.d.sensor.presence
   mnmn: SmartThingsCommunity
+  vid: c99bc78c-7549-3bb5-bb04-2e490be6ce68
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

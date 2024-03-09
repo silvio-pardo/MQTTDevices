@@ -1,7 +1,7 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "numberfield.v1",
+    "name": "numberfieldV1",
     "ephemeral": false,
     "attributes": {
         "numberval": {

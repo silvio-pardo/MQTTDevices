@@ -1,10 +1,10 @@
-name: mqttmotion
+name: mqttmotion.v1
 components:
   - id: main
     capabilities:
       - id: motionSensor
         version: 1
-      - id: colorborder61348.status
+      - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
@@ -12,6 +12,7 @@ components:
       - name: MotionSensor
 metadata:
   mnmn: SmartThingsCommunity
+  vid: b5e1d2c5-9237-3815-ae9d-cd3991ca3bf6
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

@@ -1,7 +1,7 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "mqtttext.v1",
+    "name": "mqtttextV1",
     "ephemeral": false,
     "attributes": {
         "text": {

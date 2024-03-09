@@ -242,6 +242,11 @@ local function process_message(topic, msg)
 
             if device:supports_capability_by_id('colorTemperature') then
               log.debug ('DimmerTempVariable Temp received:', valueTemperature)
+              percentageTemp = math.floor(math.abs((valueTemperature / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
+              log.info ('color temperature percentage value:', percentageTemp)
+              convertedValue = math.floor(math.abs((percentageTemp * 30000) / 100))
+              log.info ('color temperature converted value:', convertedValue)
+              device:emit_event(capabilities.colorTemperature.colorTemperature(convertedValue))
             end
 
           else
