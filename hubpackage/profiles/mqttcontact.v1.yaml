@@ -1,17 +1,16 @@
-name: mqttbattery
+name: mqttcontact
 components:
   - id: main
     capabilities:
-      - id: battery
+      - id: contactSensor
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: Others
+      - name: ContactSensor
 metadata:
-  vid: db6345b3-8fdf-3b76-b9f2-9e66055de530
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,4 +38,20 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Battery.Value"
+      default: "Contact.Action"
+  - title: "Contact OPEN Value"
+    name: contactopen
+    description: "Msg value for OPEN"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "open"
+  - title: "Contact CLOSED Value"
+    name: contactclosed
+    description: "Msg value for CLOSED"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "closed"

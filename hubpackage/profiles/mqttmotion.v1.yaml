@@ -1,17 +1,16 @@
-name: mqtthumidity
+name: mqttmotion
 components:
   - id: main
     capabilities:
-      - id: relativeHumidityMeasurement
+      - id: motionSensor
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: HumiditySensor
+      - name: MotionSensor
 metadata:
-  vid: 206beccf-da97-31da-8177-0f4fa4761878
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,4 +38,20 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "humidity.value"
+      default: "Motion.Action"
+  - title: "Motion ACTIVE Value"
+    name: motionactive
+    description: "Msg value for ACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "active"
+  - title: "Motion INACTIVE Value"
+    name: motioninactive
+    description: "Msg value for INACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "inactive"

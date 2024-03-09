@@ -1,17 +1,17 @@
-name: mqttcontact
+name: mqttpresence
 components:
   - id: main
     capabilities:
-      - id: contactSensor
+      - id: presenceSensor
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: ContactSensor
+      - name: PresenceSensor
 metadata:
-  vid: df6e7fe8-dc66-3938-b99b-1a1d8ef0ae66
+  ocfDeviceType: x.com.st.d.sensor.presence
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,20 +39,20 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Contact.Action"
-  - title: "Contact OPEN Value"
-    name: contactopen
-    description: "Msg value for OPEN"
+      default: "Presence.Action"
+  - title: "PRESENT Value"
+    name: presencepresent
+    description: "Msg value for PRESENT"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "open"
-  - title: "Contact CLOSED Value"
-    name: contactclosed
-    description: "Msg value for CLOSED"
+      default: "present"
+  - title: "NOT PRESENT Value"
+    name: presencenotpresent
+    description: "Msg value for NOT PRESENT"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "closed"
+      default: "notpresent"

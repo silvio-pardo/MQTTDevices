@@ -1,4 +1,4 @@
-name: mqttmotion_plus
+name: mqttmotion.plus
 components:
   - id: main
     capabilities:
@@ -15,7 +15,6 @@ components:
     categories:
       - name: MotionSensor
 metadata:
-  vid: 783c896b-87f9-31f7-b9b4-16b2a874708c
   ocfDeviceType: x.com.st.d.sensor.motion
   mnmn: SmartThingsCommunity
 preferences:

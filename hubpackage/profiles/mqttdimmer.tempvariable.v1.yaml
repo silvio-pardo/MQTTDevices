@@ -1,10 +1,12 @@
-name: mqttdimmer
+name: mqttdimmer.tempvariable
 components:
   - id: main
     capabilities:
       - id: switchLevel
         version: 1
       - id: switch
+        version: 1
+      - id: colorTemperature
         version: 1
       - id: colorborder61348.status
         version: 1
@@ -13,18 +15,9 @@ components:
     categories:
       - name: Switch
 metadata:
-  vid: 9de5aa75-5fc5-3e44-851a-5798964235e1
   ocfDeviceType: oic.d.switch
-  mnmn: SmartThingsCommunity
 preferences:
-  - title: "Max Dimmer Value"
-    name: dimmermax
-    description: "Enter a number for percentage calculation"
-    required: true
-    preferenceType: integer
-    definition:
-      default: 100
-  - title: "Dimmer Subscribe Topic"
+  - title: "Subscribe Topic"
     name: subTopic
     description: "Topic Name"
     required: true
@@ -50,6 +43,13 @@ preferences:
     definition:
       stringType: text
       default: "Dimmer.Action"
+  - title: "Max Dimmer Value"
+    name: dimmermax
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
   - title: "Expected Switch Message Format"
     name: swformat
     description: "Select type"
@@ -84,6 +84,38 @@ preferences:
     definition:
       stringType: text
       default: "off"
+  - title: "Expected Temperature Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Temperature JSON Key"
+    name: tempjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Min Temperature Value"
+    name: temperaturemin
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
+  - title: "Max Temperature Value"
+    name: temperaturemax
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
   - title: "Publish State Changes"
     name: publish
     description: "Enable/Disable"

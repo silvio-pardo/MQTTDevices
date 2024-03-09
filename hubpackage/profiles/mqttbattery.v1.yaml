@@ -1,8 +1,8 @@
-name: mqtttext
+name: mqttbattery
 components:
   - id: main
     capabilities:
-      - id: colorborder61348.mqtttext2
+      - id: battery
         version: 1
       - id: colorborder61348.status
         version: 1
@@ -11,7 +11,6 @@ components:
     categories:
       - name: Others
 metadata:
-  vid: 55f75446-29aa-3572-93cc-2ac5508230d3
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,4 +38,4 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "data.text"
+      default: "Battery.Value"

@@ -1,18 +1,17 @@
-name: mqttlock
+name: mqttalarm
 components:
   - id: main
     capabilities:
-      - id: lock
+      - id: alarm
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: SmartLock
+      - name: Siren
 metadata:
-  vid: 35eb44f9-197d-3701-a660-c90a26dd4296
-  ocfDeviceType: oic.d.smartlock
+  ocfDeviceType: x.com.st.d.siren
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -40,32 +39,40 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Lock.Action"
-  - title: "LOCKED State Value"
-    name: locklocked
-    description: "Msg value for LOCKED"
+      default: "Switch.Action"
+  - title: "Alarm OFF Value"
+    name: alarmoff
+    description: "Msg value for OFF"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "locked"
-  - title: "UNLOCKED State Value"
-    name: lockunlocked
-    description: "Msg value for UNLOCKED"
+      default: "off"
+  - title: "Alarm Siren Value"
+    name: alarmsiren
+    description: "Msg value for SIREN"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "unlocked"
-  - title: "Lock UNKNOWN STATE Value"
-    name: lockunknown
-    description: "Msg value for UNKNOWN"
+      default: "siren"
+  - title: "Alarm Strobe Value"
+    name: alarmstrobe
+    description: "Msg value for STROBE"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "unknown"
-  - title: "Publish Switch State Changes"
+      default: "strobe"
+  - title: "Alarm Siren+Strobe Value"
+    name: alarmboth
+    description: "Msg value for SIREN+STROBE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "both"
+  - title: "Publish Alarm State Changes"
     name: publish
     description: "Enable/Disable"
     required: true
@@ -80,22 +87,6 @@ preferences:
     definition:
       stringType: text
       default: "xxxxx/xxxxx"
-  - title: "Publish LOCK Action Value"
-    name: locklock
-    description: "Msg value for LOCK Action"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "lock"
-  - title: "Publish UNLOCK Action Value"
-    name: lockunlock
-    description: "Msg value for UNLOCK Action"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "unlock"
   - title: "Publish QoS"
     name: qos
     description: "Quality of Service"

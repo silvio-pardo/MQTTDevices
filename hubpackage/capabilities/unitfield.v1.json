@@ -1,10 +1,10 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "mqtttext2",
+    "name": "unitfield.v1",
     "ephemeral": false,
     "attributes": {
-        "text": {
+        "unittext": {
             "schema": {
                 "type": "object",
                 "properties": {
@@ -17,8 +17,22 @@
                     "value"
                 ]
             },
+            "setter": "setUnit",
             "enumCommands": []
         }
     },
-    "commands": {}
+    "commands": {
+        "setUnit": {
+            "name": "setUnit",
+            "arguments": [
+                {
+                    "name": "unittext",
+                    "optional": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ]
+        }
+    }
 }

@@ -37,8 +37,8 @@
                             "type": "active"
                         },
                         {
-                            "key": "Dimmer Temp Variable",
-                            "value": "DimmerTempVar",
+                            "key": "DimmerTempVariable",
+                            "value": "Dimmer Temperature Variable",
                             "type": "active"
                         },
                         {
@@ -144,8 +144,8 @@
                             "type": "active"
                         },
                         {
-                            "key": "Dimmer Temp Variable",
-                            "value": "DimmerTempVar",
+                            "key": "DimmerTempVariable",
+                            "value": "Dimmer Temperature Variable",
                             "type": "active"
                         },
                         {

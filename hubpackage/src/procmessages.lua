@@ -215,12 +215,13 @@ local function process_message(topic, msg)
             log.warn('Invalid dimmer value received (NaN)');
           end
 
-        elseif dtype == 'DimmerTempVar' then
+        elseif dtype == 'DimmerTempVariable' then
           local numvalue = tonumber(value)
           local valueSw = getJSONElement(device.preferences.swjsonelement, msg)
+          local valueTemperature = getJSONElement(device.preferences.tempjsonelement, msg)
 
           if numvalue then
-            log.debug ('DimmerTempVar value received:', numvalue)
+            log.debug ('DimmerTempVariable Dimmer value received:', numvalue)
             if numvalue < 0 then; numvalue = 0; end
 
             if device.preferences.dimmermax then
@@ -237,6 +238,10 @@ local function process_message(topic, msg)
               else
                 log.warn ('Unconfigured switch value received')
               end
+            end
+
+            if device:supports_capability_by_id('colorTemperature') then
+              log.debug ('DimmerTempVariable Temp received:', valueTemperature)
             end
 
           else

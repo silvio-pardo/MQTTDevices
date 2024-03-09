@@ -6,7 +6,7 @@ local subs = require "subscriptions"
 
 local function handle_refresh(driver, device, command)
   log.info ('Refresh requested')
-  if device.device_network_id:find('Master', 1, 'plaintext') then
+  if device.device_network_id:find(connectorNetworkId, 1, 'plaintext') then
     creator_device:emit_event(cap_createdev.deviceType(' ', { visibility = { displayed = false } }))
     init_mqtt(device)
   else
@@ -69,13 +69,13 @@ local function handle_switch(driver, device, command)
   device:emit_event(capabilities.switch.switch(command.command))
 
   local dtype = device.device_network_id:match('MQTT_(.+)_+')
-  if (dtype == 'Switch' or dtype == 'Dimmer') and device.preferences.publish == true then
+  if (dtype == 'Switch' or dtype == 'Dimmer' or dtype == 'DimmerTempVariable') and device.preferences.publish == true then
       
     local cmdmap = {
                       ['on'] = device.preferences.switchon,
                       ['off'] = device.preferences.switchoff
                    }
-    if dtype == 'Dimmer' then
+    if dtype == 'Dimmer' or dtype == 'DimmerTempVariable' then
       if device.preferences.swformat == 'json' then
         subs.publish_message(device, tostring('{ "'.. device.preferences.swjsonelement ..'":"'..cmdmap[command.command]..'"}'), device.preferences.pubswtopic)
       else
@@ -124,12 +124,12 @@ local function handle_alarm(driver, device, command)
 end
 
 local function handle_dimmer(driver, device, command)
-  log.info ('Dimmmer value changed to ', command.args.level)
-  
+  log.info ('Dimmer value changed to ', command.args.level)
+
   local dimmerlevel = command.args.level
-    
+
   device:emit_event(capabilities.switchLevel.level(dimmerlevel))
-  
+
   if device:supports_capability_by_id('switch') then
     if dimmerlevel > 0 then
       device:emit_event(capabilities.switch.switch('on'))
@@ -137,7 +137,7 @@ local function handle_dimmer(driver, device, command)
       device:emit_event(capabilities.switch.switch('off'))
     end
   end
-  
+
   if device.preferences.publish == true then
     if device.preferences.dimmermax then
       dimmerlevel = math.floor(math.abs((dimmerlevel * device.preferences.dimmermax) / 100))
@@ -153,7 +153,28 @@ local function handle_dimmer(driver, device, command)
 end
 
 local function handle_color_temp(driver, device, command)
-  log.info ('Color Temp value changed to ', command.args.level)
+  log.info ('Color Temp value changed to ', command.args.temperature)
+
+  local dimmerlevel = command.args.level
+  local valueTemperature = command.args.temperatur
+
+  device:emit_event(capabilities.colorTemperature.temperature(valueTemperature))
+
+  if device:supports_capability_by_id('switchLevel') then
+    device:emit_event(capabilities.switchLevel.level(dimmerlevel))
+  end
+
+  if device:supports_capability_by_id('switch') then
+    if dimmerlevel > 0 then
+      device:emit_event(capabilities.switch.switch('on'))
+    else
+      device:emit_event(capabilities.switch.switch('off'))
+    end
+  end
+
+  if device.preferences.publish == true then
+    log.info ('send color temperature change...')
+  end
 end
 
 local function handle_fanspeed(driver, device, command)

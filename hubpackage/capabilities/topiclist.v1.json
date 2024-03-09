@@ -1,10 +1,10 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "status",
+    "name": "topiclist.v1",
     "ephemeral": false,
     "attributes": {
-        "status": {
+        "topiclist": {
             "schema": {
                 "type": "object",
                 "properties": {

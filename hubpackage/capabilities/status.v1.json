@@ -1,10 +1,10 @@
 {
     "version": 1,
     "status": "proposed",
-    "name": "unitfield",
+    "name": "status.v1",
     "ephemeral": false,
     "attributes": {
-        "unittext": {
+        "status": {
             "schema": {
                 "type": "object",
                 "properties": {
@@ -17,22 +17,8 @@
                     "value"
                 ]
             },
-            "setter": "setUnit",
             "enumCommands": []
         }
     },
-    "commands": {
-        "setUnit": {
-            "name": "setUnit",
-            "arguments": [
-                {
-                    "name": "unittext",
-                    "optional": false,
-                    "schema": {
-                        "type": "string"
-                    }
-                }
-            ]
-        }
-    }
+    "commands": {}
 }

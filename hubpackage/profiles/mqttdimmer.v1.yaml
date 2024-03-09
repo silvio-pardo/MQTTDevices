@@ -1,12 +1,10 @@
-name: mqttdimmer_tempvariable
+name: mqttdimmer
 components:
   - id: main
     capabilities:
       - id: switchLevel
         version: 1
       - id: switch
-        version: 1
-      - id: colorTemperature
         version: 1
       - id: colorborder61348.status
         version: 1
@@ -16,15 +14,9 @@ components:
       - name: Switch
 metadata:
   ocfDeviceType: oic.d.switch
+  mnmn: SmartThingsCommunity
 preferences:
-  - title: "Max Dimmer Value"
-    name: dimmermax
-    description: "Enter a number for percentage calculation"
-    required: true
-    preferenceType: integer
-    definition:
-      default: 100
-  - title: "Dimmer Subscribe Topic"
+  - title: "Subscribe Topic"
     name: subTopic
     description: "Topic Name"
     required: true
@@ -50,6 +42,13 @@ preferences:
     definition:
       stringType: text
       default: "Dimmer.Action"
+  - title: "Max Dimmer Value"
+    name: dimmermax
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
   - title: "Expected Switch Message Format"
     name: swformat
     description: "Select type"

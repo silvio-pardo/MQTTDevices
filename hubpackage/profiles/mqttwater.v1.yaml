@@ -1,19 +1,17 @@
-name: mqttnumeric
+name: mqttwater
 components:
   - id: main
     capabilities:
-      - id: colorborder61348.numberfield
-        version: 1
-      - id: colorborder61348.unitfield
+      - id: waterSensor
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: Others
+      - name: LeakSensor
 metadata:
-  vid: e91000ef-2797-3c03-aa98-d6711bcbc3a6
+  ocfDeviceType: x.com.st.d.sensor.moisture
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -33,46 +31,28 @@ preferences:
       options:
         json: "JSON"
         string: "String"
-      default: json
-  - title: "Number value JSON key"
+      default: string
+  - title: "JSON Key"
     name: jsonelement
-    description: "Value element"
+    description: "Data element"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "value"
-  - title: "Unit value JSON key"
-    name: unitkey
-    description: "Unit element"
+      default: "Water.Action"
+  - title: "DRY Value"
+    name: waterdry
+    description: "Msg value for DRY"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "unit"
-  - title: "Publish Changes"
-    name: publish
-    description: "Enable/Disable"
-    required: true
-    preferenceType: boolean
-    definition:
-      default: false
-  - title: "Publish Topic"
-    name: pubtopic
-    description: "Topic String"
+      default: "dry"
+  - title: "WET Value"
+    name: waterwet
+    description: "Msg value for WET"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "xxxxx/xxxxx"
-  - title: "Publish QoS"
-    name: qos
-    description: "Quality of Service"
-    required: true
-    preferenceType: enumeration
-    definition:
-      options:
-        qos0: "0"
-        qos1: "1"
-        qos2: "2"
-      default: qos1
+      default: "wet"

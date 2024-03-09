@@ -1,18 +1,16 @@
-name: mqttwater
+name: mqtthumidity
 components:
   - id: main
     capabilities:
-      - id: waterSensor
+      - id: relativeHumidityMeasurement
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: LeakSensor
+      - name: HumiditySensor
 metadata:
-  vid: 15fee209-9f03-3491-a32e-93307a10a7a2
-  ocfDeviceType: x.com.st.d.sensor.moisture
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -40,20 +38,4 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Water.Action"
-  - title: "DRY Value"
-    name: waterdry
-    description: "Msg value for DRY"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "dry"
-  - title: "WET Value"
-    name: waterwet
-    description: "Msg value for WET"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "wet"
+      default: "humidity.value"

@@ -1,23 +1,22 @@
-name: mqttshade
+name: mqttrobot
 components:
   - id: main
     capabilities:
-      - id: windowShade
+      - id: robotCleanerCleaningMode
         version: 1
-      - id: windowShadeLevel
+      - id: robotCleanerMovement
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: Blind
+      - name: RobotCleaner
 metadata:
-  vid: 33022d3f-036d-3bf9-a2b1-3b28cc4c97cb
-  ocfDeviceType: oic.d.blind
+  ocfDeviceType: oic.d.robotcleaner
   mnmn: SmartThingsCommunity
 preferences:
-  - title: "Subscribe Topic"
+  - title: "Subscribe Basic Control Topic"
     name: subTopic
     description: "Topic Name"
     required: true
@@ -43,31 +42,39 @@ preferences:
     definition:
       stringType: text
       default: "shade.value"
-  - title: "Shade OPEN Value"
-    name: shadeopen
-    description: "Msg value for OPEN"
+  - title: "START Value"
+    name: robotstart
+    description: "Msg value for START"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "OPEN"
-  - title: "Shade PAUSE Value"
-    name: shadepause
-    description: "Msg value for PAUSE"
+      default: "START"
+  - title: "STOP Value"
+    name: robotstop
+    description: "Msg value for STOP"
     required: true
     preferenceType: string
     definition:
       stringType: text
       default: "STOP"
-  - title: "Shade CLOSE Value"
-    name: shadeclose
-    description: "Msg value for CLOSE"
+  - title: "PAUSE Value"
+    name: robotpause
+    description: "Msg value for PAUSE"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "CLOSE"
-  - title: "Publish Changes"
+      default: "PAUSE"
+  - title: "HOME Value"
+    name: robothome
+    description: "Msg value for HOME"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "HOME"
+  - title: "Publish Basic Control"
     name: publish
     description: "Enable/Disable"
     required: true

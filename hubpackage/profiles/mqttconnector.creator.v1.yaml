@@ -1,4 +1,4 @@
-name: mqttcreator
+name: mqttconnector.creator
 components:
   - id: main
     capabilities:
@@ -15,7 +15,6 @@ components:
     categories:
       - name: Others
 metadata:
-  vid: 82d444db-8760-343a-8fc4-90a59a43e6a5
   mnmn: SmartThingsCommunity
 preferences:
   - title: "MQTT Broker Username"

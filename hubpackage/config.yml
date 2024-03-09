@@ -1,5 +1,5 @@
-name: 'MQTT Devices V2.0'
-packageKey: 'mqttdevicesv2'
+name: 'MQTT ZigBee Devices'
+packageKey: 'mqttzigbeedevices'
 permissions:
     lan: {}
     discovery: {}

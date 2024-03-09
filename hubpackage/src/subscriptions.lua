@@ -71,7 +71,7 @@ local function publish_message(device, payload, opt_topic, opt_qos)
 end
 
 local function get_last_status_device(device)
-    if device.device_network_id:find('Master', 1, 'plaintext') then
+    if device.device_network_id:find(connectorNetworkId, 1, 'plaintext') then
         log.info ('Unsupported Refresh action')
     else
         log.info('refresh normal device - request status refresh')
@@ -130,7 +130,7 @@ end
 local function subscribe_all()
   local devicelist = thisDriver:get_devices()
   for _, device in ipairs(devicelist) do
-      if not device.device_network_id:find('Master', 1, 'plaintext') then
+      if not device.device_network_id:find(connectorNetworkId, 1, 'plaintext') then
           if (device.preferences.subTopic ~= 'xxxxx/xxxxx') and (device.preferences.subTopic ~= nil) then
               subscribe_topic(device)
           end

@@ -1,17 +1,16 @@
-name: mqttmotion
+name: mqtttext
 components:
   - id: main
     capabilities:
-      - id: motionSensor
+      - id: colorborder61348.mqtttext
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: MotionSensor
+      - name: Others
 metadata:
-  vid: 75733f95-cc9a-326a-b295-ccbd8d4ce79f
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,20 +38,4 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Motion.Action"
-  - title: "Motion ACTIVE Value"
-    name: motionactive
-    description: "Msg value for ACTIVE"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "active"
-  - title: "Motion INACTIVE Value"
-    name: motioninactive
-    description: "Msg value for INACTIVE"
-    required: true
-    preferenceType: string
-    definition:
-      stringType: text
-      default: "inactive"
+      default: "data.text"

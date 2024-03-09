@@ -1,50 +1,20 @@
-name: mqtttemp
+name: mqttnumeric
 components:
   - id: main
     capabilities:
-      - id: temperatureMeasurement
+      - id: colorborder61348.numberfield
         version: 1
-        config:
-          values:
-            - key: "temperature.value"
-              range: [-120, 200]
-      - id: thermostatHeatingSetpoint
+      - id: colorborder61348.unitfield
         version: 1
-        config:
-          values:
-            - key: "temperature.value"
-              range: [-120, 200]
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: Thermostat
+      - name: Others
 metadata:
-  vid: 8f6d3a3f-2e35-374b-af33-5385b860aed8
-  ocfDeviceType: oic.d.thermostat
   mnmn: SmartThingsCommunity
 preferences:
-  - title: "Received Temperature Units"
-    name: rtempunit
-    description: "Temperature Units"
-    required: true
-    preferenceType: enumeration
-    definition:
-      options:
-        celsius: "Celsius"
-        fahrenheit: "Fahrenheit"
-      default: celsius
-  - title: "Displayed Temperature Units"
-    name: dtempunit
-    description: "Temperature Units"
-    required: true
-    preferenceType: enumeration
-    definition:
-      options:
-        celsius: "Celsius"
-        fahrenheit: "Fahrenheit"
-      default: celsius
   - title: "Subscribe Topic"
     name: subTopic
     description: "Topic Name"
@@ -62,16 +32,24 @@ preferences:
       options:
         json: "JSON"
         string: "String"
-      default: string
-  - title: "JSON Key"
+      default: json
+  - title: "Number value JSON key"
     name: jsonelement
-    description: "Data element"
+    description: "Value element"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "Temperature.Value"
-  - title: "Publish Temperature Changes"
+      default: "value"
+  - title: "Unit value JSON key"
+    name: unitkey
+    description: "Unit element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "unit"
+  - title: "Publish Changes"
     name: publish
     description: "Enable/Disable"
     required: true

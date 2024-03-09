@@ -1,17 +1,19 @@
-name: mqttswitch
+name: mqttshade
 components:
   - id: main
     capabilities:
-      - id: switch
+      - id: windowShade
+        version: 1
+      - id: windowShadeLevel
         version: 1
       - id: colorborder61348.status
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: Switch
+      - name: Blind
 metadata:
-  vid: a365eeab-4192-3367-9764-208c3f29d200
+  ocfDeviceType: oic.d.blind
   mnmn: SmartThingsCommunity
 preferences:
   - title: "Subscribe Topic"
@@ -39,24 +41,32 @@ preferences:
     preferenceType: string
     definition:
       stringType: text
-      default: "Switch.Action"
-  - title: "Switch ON Value"
-    name: switchon
-    description: "Msg value for ON"
+      default: "shade.value"
+  - title: "Shade OPEN Value"
+    name: shadeopen
+    description: "Msg value for OPEN"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "ON"
-  - title: "Switch OFF Value"
-    name: switchoff
-    description: "Msg value for OFF"
+      default: "OPEN"
+  - title: "Shade PAUSE Value"
+    name: shadepause
+    description: "Msg value for PAUSE"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "OFF"
-  - title: "Publish Switch State Changes"
+      default: "STOP"
+  - title: "Shade CLOSE Value"
+    name: shadeclose
+    description: "Msg value for CLOSE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "CLOSE"
+  - title: "Publish Changes"
     name: publish
     description: "Enable/Disable"
     required: true
@@ -65,7 +75,7 @@ preferences:
       default: false
   - title: "Publish Topic"
     name: pubtopic
-    description: "Topic String"
+    description: "Topic Name"
     required: true
     preferenceType: string
     definition:
