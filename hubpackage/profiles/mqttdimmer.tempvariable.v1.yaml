@@ -13,10 +13,11 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Switch
+      - name: Light
 metadata:
   vid: 3f5913d5-0949-3f4f-bd2b-b04daf7526ff
-  ocfDeviceType: oic.d.switch
+  mnmn: SmartThingsCommunity
+  ocfDeviceType: oic.d.light
 preferences:
   - title: "Subscribe Topic"
     name: subTopic

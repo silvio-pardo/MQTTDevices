@@ -11,9 +11,9 @@ components:
       - id: refresh
         version: 1
     categories:
-      - name: Switch
+      - name: Light
 metadata:
-  ocfDeviceType: oic.d.switch
+  ocfDeviceType: oic.d.light
   mnmn: SmartThingsCommunity
   vid: 004ebd4e-001b-3247-9e47-6a3fee31c1c3
 preferences:

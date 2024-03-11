@@ -3,7 +3,6 @@ local capabilities = require "st.capabilities"
 local socket = require "cosock.socket"
 local json = require "dkjson"
 local subs = require "subscriptions"
-local tools = require("mqtt.tools")
 
 local function handle_refresh(driver, device, command)
   log.info ('Refresh requested')
