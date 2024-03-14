@@ -118,6 +118,13 @@ preferences:
     preferenceType: integer
     definition:
       default: 100
+  - title: "Invert Temperature Calculation"
+    name: tempinvertcalculation
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
   - title: "Publish State Changes"
     name: publish
     description: "Enable/Disable"

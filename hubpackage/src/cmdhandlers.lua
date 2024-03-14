@@ -160,7 +160,10 @@ local function handle_color_temp(driver, device, command)
 
   percentageTemp = math.floor(math.abs((valueTemperature / 30000) * 100))
   log.info ('color temperature percentage value:', percentageTemp)
-  convertedValue = math.floor(math.abs((percentageTemp * device.preferences.temperaturemax) / 100)) + device.preferences.temperaturemin
+  convertedValue = math.floor(math.abs((percentageTemp * (device.preferences.temperaturemax - device.preferences.temperaturemin)) / 100)) + device.preferences.temperaturemin
+  if(device.preferences.tempinvertcalculation) then
+    convertedValue = device.preferences.temperaturemax - math.floor(math.abs((percentageTemp * (device.preferences.temperaturemax - device.preferences.temperaturemin)) / 100))
+  end
   log.info ('color temperature converted value:', convertedValue)
 
   if device.preferences.publish == true then

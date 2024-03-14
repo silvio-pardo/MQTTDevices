@@ -39,10 +39,11 @@ typemeta =  {
   ['Robot']         = { ['profile'] = 'mqttrobot.v1',         ['created'] = 0, ['switch'] = false },
   ['Fan']           = { ['profile'] = 'mqttfan.v1',           ['created'] = 0, ['switch'] = true },
   ['DimmerTempVariable'] = { ['profile'] = 'mqttdimmer.tempvariable.v1',['created'] = 0, ['switch'] = true },
+  ['Plug']       = { ['profile'] = 'mqttplug.v1',       ['created'] = 0, ['switch'] = true },
+  ['PlugMeter']       = { ['profile'] = 'mqttplug.meter.v1',       ['created'] = 0, ['switch'] = true },
 --['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
 --['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
---['Energy']       = { ['profile'] = 'mqttenergy',       ['created'] = 0, ['switch'] = false },
-            }
+}
 
 -- Module variables
 
@@ -65,9 +66,6 @@ cap_custompublish = capabilities["colorborder61348.mqttpublishv1"]
 cap_text = capabilities["colorborder61348.mqtttextv1"]
 cap_numfield = capabilities["colorborder61348.numberfieldv1"]
 cap_unitfield = capabilities["colorborder61348.unitfieldv1"]
-
---cap_setenergy = capabilities["colorborder61348.setenergy"]
---cap_setpower = capabilities["colorborder61348.setpower"]
 
 local function schedule_subscribe()
 
