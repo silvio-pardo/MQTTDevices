@@ -42,7 +42,6 @@ typemeta =  {
   ['Plug']       = { ['profile'] = 'mqttplug.v1',       ['created'] = 0, ['switch'] = true },
   ['PlugMeter']       = { ['profile'] = 'mqttplug.meter.v1',       ['created'] = 0, ['switch'] = true },
 --['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
---['Acceleration'] = { ['profile'] = 'mqttaccel',         ['created'] = 0, ['switch'] = false },
 }
 
 -- Module variables
@@ -300,16 +299,15 @@ local function device_added (driver, device)
       device:emit_event(capabilities.battery.battery(100))
     elseif dtype == 'Fan' then
       device:emit_event(capabilities.fanSpeed.fanSpeed(0))
-    --elseif dtype == 'Energy' then
-      --device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
-      --device:emit_event(cap_reset.cmdSelect(' '))
-      --device:emit_event(capabilities.powerMeter.power(0))
-      --device:emit_event(cap_setenergy.energyval(0))
-      --device:emit_event(cap_setpower.powerval(0))
+    elseif dtype == 'Plug' then
+      device:emit_event(capabilities.switch.switch('off'))
+    elseif dtype == 'PlugMeter' then
+      device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
+      device:emit_event(capabilities.powerMeter.power(0))
+      device:emit_event(capabilities.switch.switch('off'))
+      device:emit_event(capabilities.currentMeasurement.current(0))
     --elseif dtype == 'CO2' then
       --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(0))
-    --elseif dtype == 'Acceleration' then
-      --device:emit_event(capabilities.accelerationSensor.acceleration('inactive'))
     end
 
     creator_device:emit_event(cap_createdev.deviceType('Device created'))
@@ -530,16 +528,7 @@ thisDriver = Driver("MQTT ZigBee Devices", {
     },
     [capabilities.fanSpeed.ID] = {
       [capabilities.fanSpeed.commands.setFanSpeed.NAME] = cmd.handle_fanspeed,
-    },
-    --[capabilities.energyMeter.ID] = {
-    --[capabilities.energyMeter.commands.resetEnergyMeter.NAME] = cmd.handle_reset,
-    --},
-    --[cap_setpower.ID] = {
-    --[cap_setpower.commands.setPower.NAME] = cmd.handle_setpower,
-    --},
-    --[cap_setenergy.ID] = {
-      --[cap_setenergy.commands.setEnergy.NAME] = cmd.handle_setenergy,
-    --},
+    }
   }
 })
 

@@ -5,7 +5,7 @@
     },
     "detailView": [
         {
-            "label": "Select the device to create",
+            "label": "{{i18n.label}}",
             "displayType": "list",
             "list": {
                 "command": {
@@ -109,6 +109,16 @@
                         {
                             "key": "Shade",
                             "value": "Window Shade",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Plug",
+                            "value": "Smart Plug",
+                            "type": "active"
+                        },
+                        {
+                            "key": "PlugMeter",
+                            "value": "Smart Plug Meter",
                             "type": "active"
                         }
                     ],
@@ -216,6 +226,16 @@
                         {
                             "key": "Shade",
                             "value": "Window Shade",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Plug",
+                            "value": "Smart Plug",
+                            "type": "active"
+                        },
+                        {
+                            "key": "PlugMeter",
+                            "value": "Smart Plug Meter",
                             "type": "active"
                         }
                     ]

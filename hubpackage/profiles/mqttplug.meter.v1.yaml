@@ -18,6 +18,7 @@ components:
       - name: SmartPlug
 metadata:
   mnmn: SmartThingsCommunity
+  vid: 5486f7fd-4959-3ce8-a312-ac86d0872efc
 preferences:
   - title: "Subscribe Topic"
     name: subTopic
@@ -45,3 +46,154 @@ preferences:
     definition:
       stringType: text
       default: "Value.Action"
+  - title: "Switch ON Value"
+    name: switchon
+    description: "Msg value for ON"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "ON"
+  - title: "Switch OFF Value"
+    name: switchoff
+    description: "Msg value for OFF"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "OFF"
+  - title: "Expected EnergyMt Format"
+    name: formatEnergyMeter
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Energy Meter JSON Key"
+    name: energymeterjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Action"
+  - title: "Energy Units"
+    name: eunits
+    description: "Select unit"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        Wh: "Wh"
+        kWh: "kWh"
+        mWh: "mWh"
+        kVAh: "kVAh"
+      default: kWh
+  - title: "Expected PowerMt Format"
+    name: formatPowerMeter
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Power Meter JSON Key"
+    name: powermeterjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Action"
+  - title: "Power Units"
+    name: punits
+    description: "Select unit"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        mwatts: "Milliwatts"
+        watts: "Watts"
+        kwatts: "Kilowatts"
+      default: watts
+  - title: "Expected CurrentMt Format"
+    name: formatCurrentMeter
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Current Meter JSON Key"
+    name: currentmeterjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Action"
+  - title: "Publish Switch State Changes"
+    name: publish
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Publish Topic"
+    name: pubtopic
+    description: "Topic String"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Publish QoS"
+    name: qos
+    description: "Quality of Service"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        qos0: "0"
+        qos1: "1"
+        qos2: "2"
+      default: qos1
+  - title: "Enable State Changes Request"
+    name: getter
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Getter Topic"
+    name: getterTopic
+    description: "Topic Name"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx/get"
+  - title: "Getter Message Format"
+    name: getterFormat
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+      default: json
+  - title: "Getter Message JSON Key"
+    name: getterJsonElement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "State"

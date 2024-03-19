@@ -5,29 +5,12 @@ local function build_html(list)
   local html_list = ''
 
   for _, item in ipairs(list) do
-    html_list = html_list .. '<tr><td>' .. item .. '</td></tr>\n'
+    html_list = html_list .. '\n' .. item .. '\n'
   end
 
   local html =  {
-                  '<!DOCTYPE html>\n',
-                  '<HTML>\n',
-                  '<HEAD>\n',
-                  '<style>\n',
-                  'table, td {\n',
-                  '  border: 1px solid black;\n',
-                  '  border-collapse: collapse;\n',
-                  '  font-size: 12px;\n',
-                  '  padding: 3px;\n',
-                  '}\n',
-                  '</style>\n',
-                  '</HEAD>\n',
-                  '<BODY>\n',
-                  '<table>\n',
-                  html_list,
-                  '</table>\n',
-                  '</BODY>\n',
-                  '</HTML>\n'
-                }
+      html_list,
+  }
     
   return (table.concat(html))
 end
@@ -83,8 +66,14 @@ local function get_last_status_device(device)
             else
                 log.info('unsupported refresh payload')
             end
+        else
+            if (device.preferences.mqttpersistence) then
+                log.info('Handle device subscription refresh for persistent devices')
+                return false
+            end
         end
     end
+    return true
 end
 
 local function is_subscribed(qtopic)
@@ -139,26 +128,26 @@ local function subscribe_all()
 end
 
 local function unsubscribe(id, topic, delete_flag)
-  local qty_check_val = 1                                 -- =1 if device changing subscription; =0 if device was deleted
-  if delete_flag == true then; qty_check_val = 0; end
+    local qty_check_val = 1                                 -- =1 if device changing subscription; =0 if device was deleted
+    if delete_flag == true then; qty_check_val = 0; end
 
-  if #determine_devices(topic) == qty_check_val then      -- unsubscribe only if no more devices using this topic
+    if #determine_devices(topic) == qty_check_val then      -- unsubscribe only if no more devices using this topic
 
-    local rc, err = client:unsubscribe{ topic=topic, callback=function(unsuback)
-          log.info("\t\tUnsubscribe callback:", unsuback)
-      end}
-      
-    if rc == false then
-      log.debug ('\tUnsubscribe failed with err:', err)
+        local rc, err = client:unsubscribe{ topic=topic, callback=function(unsuback)
+            log.info("\t\tUnsubscribe callback:", unsuback)
+        end}
+
+        if rc == false then
+            log.debug ('\tUnsubscribe failed with err:', err)
+        else
+            log.debug (string.format('\tUnsubscribed from %s', topic))
+            SUBSCRIBED_TOPICS[id] = nil
+            creator_device:emit_event(cap_topiclist.topiclist(build_html(unique_topic_list())))
+        end
     else
-      log.debug (string.format('\tUnsubscribed from %s', topic))
-      SUBSCRIBED_TOPICS[id] = nil
-      creator_device:emit_event(cap_topiclist.topiclist(build_html(unique_topic_list())))
+        log.debug (string.format('Subscription to <%s> still in use by another device', topic))
+        SUBSCRIBED_TOPICS[id] = nil
     end
-  else
-    log.debug (string.format('Subscription to <%s> still in use by another device', topic))
-    SUBSCRIBED_TOPICS[id] = nil
-  end
 end
 
 local function unsubscribe_all()

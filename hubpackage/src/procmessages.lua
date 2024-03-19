@@ -2,9 +2,7 @@ local log = require "log"
 local capabilities = require "st.capabilities"
 local json = require "dkjson"
 local stutils = require "st.utils"
-
 local sub = require "subscriptions"
-
 
 local function is_array(t)
   if type(t) ~= "table" then return false end
@@ -128,7 +126,6 @@ local function process_message(topic, msg)
       end
 
       if value ~= nil then
-        
         if (dtype == 'Motion') or (dtype == 'MotionPlus') then
           if value == device.preferences.motionactive then
             device:emit_event(capabilities.motionSensor.motion.active())
@@ -137,11 +134,9 @@ local function process_message(topic, msg)
           else
             log.warn ('Unconfigured motion value received')
           end
-        end
-
-        if dtype == 'MotionPlus' then
-
-          motionplus(device, msg)
+          if dtype == 'MotionPlus' then
+            motionplus(device, msg)
+          end
 
         elseif dtype == 'Switch' then
           if value == device.preferences.switchon then
@@ -198,21 +193,19 @@ local function process_message(topic, msg)
             if device.preferences.dimmermax then
               numvalue = math.floor(math.abs((numvalue / device.preferences.dimmermax) * 100))
             end
-
             device:emit_event(capabilities.switchLevel.level(numvalue))
-
-            if device:supports_capability_by_id('switch') then
-              if valueSw == device.preferences.switchon then
-                device:emit_event(capabilities.switch.switch.on())
-              elseif valueSw == device.preferences.switchoff then
-                device:emit_event(capabilities.switch.switch.off())
-              else
-                log.warn ('Unconfigured switch value received')
-              end
-            end
-
           else
             log.warn('Invalid dimmer value received (NaN)');
+          end
+
+          if device:supports_capability_by_id('switch') then
+            if valueSw == device.preferences.switchon then
+              device:emit_event(capabilities.switch.switch.on())
+            elseif valueSw == device.preferences.switchoff then
+              device:emit_event(capabilities.switch.switch.off())
+            else
+              log.warn ('Unconfigured switch value received')
+            end
           end
 
         elseif dtype == 'DimmerTempVariable' then
@@ -227,37 +220,35 @@ local function process_message(topic, msg)
             if device.preferences.dimmermax then
               numvalue = math.floor(math.abs((numvalue / device.preferences.dimmermax) * 100))
             end
-
             device:emit_event(capabilities.switchLevel.level(numvalue))
-
-            if device:supports_capability_by_id('switch') then
-              if valueSw == device.preferences.switchon then
-                device:emit_event(capabilities.switch.switch.on())
-              elseif valueSw == device.preferences.switchoff then
-                device:emit_event(capabilities.switch.switch.off())
-              else
-                log.warn ('Unconfigured switch value received')
-              end
-            end
-
-            if device:supports_capability_by_id('colorTemperature') then
-              log.debug ('DimmerTempVariable Temp received:', valueTemperature)
-              percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemin) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
-              if(device.preferences.tempinvertcalculation) then
-                percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemax) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
-              end
-              log.info ('color temperature percentage value:', percentageTemp)
-              convertedValue = math.floor(math.abs((percentageTemp * 30000) / 100))
-              log.info ('color temperature converted value:', convertedValue)
-              if(convertedValue < 1) then
-                convertedValue = 1
-              end
-
-              device:emit_event(capabilities.colorTemperature.colorTemperature(convertedValue))
-            end
-
           else
             log.warn('Invalid dimmer value received (NaN)');
+          end
+
+          if device:supports_capability_by_id('switch') then
+            if valueSw == device.preferences.switchon then
+              device:emit_event(capabilities.switch.switch.on())
+            elseif valueSw == device.preferences.switchoff then
+              device:emit_event(capabilities.switch.switch.off())
+            else
+              log.warn ('Unconfigured switch value received')
+            end
+          end
+
+          if device:supports_capability_by_id('colorTemperature') then
+            log.debug ('DimmerTempVariable Temp received:', valueTemperature)
+            percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemin) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
+            if(device.preferences.tempinvertcalculation) then
+              percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemax) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
+            end
+            log.info ('color temperature percentage value:', percentageTemp)
+            convertedValue = math.floor(math.abs((percentageTemp * 30000) / 100))
+            log.info ('color temperature converted value:', convertedValue)
+            if(convertedValue < 1) then
+              convertedValue = 1
+            end
+
+            device:emit_event(capabilities.colorTemperature.colorTemperature(convertedValue))
           end
 
         elseif dtype == 'Fan' then
@@ -283,9 +274,7 @@ local function process_message(topic, msg)
               else
                 fanspeed = 1
               end
-
               device:emit_event(capabilities.fanSpeed.fanSpeed(fanspeed))
-
             else
               log.warn ('Invalid fan speed range configured:', device.preferences.fanspeedrange)
             end
@@ -431,36 +420,50 @@ local function process_message(topic, msg)
             device:emit_event(capabilities.robotCleanerMovement.robotCleanerMovement('charging'))
             device:emit_event(capabilities.robotCleanerCleaningMode.robotCleanerCleaningMode('stop'))
           end
+
+        elseif dtype == 'Plug' then
+          if value == device.preferences.switchon then
+            device:emit_event(capabilities.switch.switch.on())
+          elseif value == device.preferences.switchoff then
+            device:emit_event(capabilities.switch.switch.off())
+          else
+            log.warn ('Unconfigured switch value received')
+          end
+
+        elseif dtype == 'PlugMeter' then
+          local valueEnergyMeter = getJSONElement(device.preferences.energymeterjsonelement, msg)
+          local valuePowerMeter = getJSONElement(device.preferences.powermeterjsonelement, msg)
+          local valueCurrentMeter = getJSONElement(device.preferences.currentmeterjsonelement, msg)
+
+          if value == device.preferences.switchon then
+            device:emit_event(capabilities.switch.switch.on())
+          elseif value == device.preferences.switchoff then
+            device:emit_event(capabilities.switch.switch.off())
+          else
+            log.warn ('Unconfigured switch value received')
+          end
+          if type(valuePowerMeter) == 'number' then
+            if device.preferences.punits == 'mwatts' then
+              valuePowerMeter = math.floor(valuePowerMeter / 1000 * 1000000) / 1000000
+            elseif device.preferences.punits == 'kwatts' then
+              valuePowerMeter = math.floor(valuePowerMeter * 1000 * 1000000) / 1000000
+            end
+            device:emit_event(capabilities.powerMeter.power(valuePowerMeter))
+          end
+          if type(valueCurrentMeter) == 'number' then
+            device:emit_event(capabilities.currentMeasurement.current(valueCurrentMeter))
+          end
+          if type(valueEnergyMeter) == 'number' then
+            device:emit_event(capabilities.energyMeter.energy({value = tonumber(valueEnergyMeter), unit = device.preferences.eunits }))
+          end
+          --elseif dtype == 'CO2' then
+          --value = tonumber(value)
+          --if type(value) == 'number' then
+          --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(value))
+          --end
+        else
+          log.warn ('No valid device found; ignoring')
         end
-        
-      elseif dtype == 'MotionPlus' then
-        motionplus(device, msg)
-      --elseif dtype == 'Energy' then
-        --device:emit_event(capabilities.energyMeter.energy({value = tonumber(value), unit = device.preferences.eunits }))
-        --if device:supports_capability_by_id('powerMeter') then
-        --local powervalue = getJSONElement(device.preferences.powerkey, msg)
-        --if type(powervalue) == 'number' then
-        --if device.preferences.punits == 'mwatts' then
-        --powervalue = math.floor(powervalue / 1000 * 1000000) / 1000000
-        --elseif device.preferences.punits == 'kwatts' then
-        --powervalue = math.floor(powervalue * 1000 * 1000000) / 1000000
-        --end
-        --device:emit_event(capabilities.powerMeter.power(powervalue))
-        --end
-        --end
-      --elseif dtype == 'CO2' then
-        --value = tonumber(value)
-        --if type(value) == 'number' then
-        --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(value))
-        --end
-      --elseif dtype == 'Acceleration' then
-        --if value == device.preferences.accelactive then
-        --device:emit_event(capabilities.accelerationSensor.acceleration.active())
-        --elseif value == device.preferences.accelinactive then
-        --device:emit_event(capabilities.accelerationSensor.acceleration.inactive())
-        --else
-        --log.warn ('Unconfigured acceleration value received')
-        --end
       else
         log.warn ('No valid value found in message; ignoring')
       end

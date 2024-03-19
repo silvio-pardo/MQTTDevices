@@ -13,7 +13,15 @@ local function handle_refresh(driver, device, command)
     local subscribed, id, topic = subs.mqtt_check_is_subscribed(device)
     if subscribed then
       log.info ('Refresh status device requested, request updated data from zigbee2mqtt')
-      subs.get_last_status_device(device)
+      local havemsgpersistence = subs.get_last_status_device(device)
+
+      if (havemsgpersistence == false) then
+        log.info('The device have persistence message enabled!')
+        log.debug (string.format('Unsubscribing device <%s> from %s', device.label, topic))
+        subs.unsubscribe(id, topic)
+        log.debug (string.format('Subscribing device <%s> from %s', device.label, topic))
+        subs.mqtt_subscribe(device)
+      end
     else
       subs.mqtt_subscribe(device)
     end
@@ -413,39 +421,8 @@ end
 
 --unused function
 local function handle_reset_energy(driver, device, command)
-
   log.info ('Energy Meter History Reset')
   device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
-
-end
-local function handle_setenergy(driver, device, command)
-
-  log.info (string.format('Energy value set to %s', command.args.energyval))
-  device:emit_event(cap_setenergy.energyval({value = command.args.energyval, unit = device.preferences.eunitsset}))
-  device:emit_event(capabilities.energyMeter.energy({value = command.args.energyval, unit=device.preferences.eunitsset}))
-
-  if device.preferences.epublish == true then
-    subs.publish_message(device, tostring(command.args.energyval), device.preferences.epubtopic)
-  end
-
-end
-local function handle_setpower(driver, device, command)
-
-  log.info (string.format('Power value set to %s', command.args.powerval))
-
-  local disp_multiplier = 1
-  if device.preferences.punitsset == 'mwatts' then
-    disp_multiplier = .001
-  elseif device.preferences.punitsset == 'kwatts' then
-    disp_multiplier = 1000
-  end
-  device:emit_event(cap_setpower.powerval(command.args.powerval * disp_multiplier))
-  device:emit_event(capabilities.powerMeter.power(command.args.powerval * disp_multiplier))
-
-  if device.preferences.ppublish == true then
-    subs.publish_message(device, tostring(command.args.powerval), device.preferences.ppubtopic)
-  end
-
 end
 --end unused
 

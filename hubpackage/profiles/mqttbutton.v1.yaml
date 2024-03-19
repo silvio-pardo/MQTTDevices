@@ -100,3 +100,10 @@ preferences:
         qos1: "1"
         qos2: "2"
       default: qos1
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
