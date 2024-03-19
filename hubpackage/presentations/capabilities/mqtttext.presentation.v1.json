@@ -1,0 +1,33 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{text.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "State",
+            "displayType": "state",
+            "state": {
+                "label": "{{text.value}}"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Text value",
+                "displayType": "textField",
+                "textField": {
+                    "value": "text.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": []
+    },
+    "version": 1
+}

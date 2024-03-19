@@ -1,0 +1,116 @@
+name: mqttswitch.v1
+components:
+  - id: main
+    capabilities:
+      - id: switch
+        version: 1
+      - id: colorborder61348.statusv1
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Switch
+metadata:
+  mnmn: SmartThingsCommunity
+  vid: 470cf4d1-0ec2-3074-b884-3ffbdc4ef8ce
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Expected Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "JSON Key"
+    name: jsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Switch.Action"
+  - title: "Switch ON Value"
+    name: switchon
+    description: "Msg value for ON"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "ON"
+  - title: "Switch OFF Value"
+    name: switchoff
+    description: "Msg value for OFF"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "OFF"
+  - title: "Publish Switch State Changes"
+    name: publish
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Publish Topic"
+    name: pubtopic
+    description: "Topic String"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Publish QoS"
+    name: qos
+    description: "Quality of Service"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        qos0: "0"
+        qos1: "1"
+        qos2: "2"
+      default: qos1
+  - title: "Enable State Changes Request"
+    name: getter
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Getter Topic"
+    name: getterTopic
+    description: "Topic Name"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx/get"
+  - title: "Getter Message Format"
+    name: getterFormat
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+      default: json
+  - title: "Getter Message JSON Key"
+    name: getterJsonElement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "State"

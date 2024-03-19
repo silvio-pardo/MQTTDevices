@@ -29,6 +29,20 @@ function tools.div(x, y)
 	return math_floor(x / y)
 end
 
+-- table dump function
+function tools.tb_dump(o)
+	if type(o) == 'table' then
+		local s = '{ '
+		for k,v in pairs(o) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. '['..k..'] = ' .. tools.tb_dump(v) .. ','
+		end
+		return s .. '} '
+	else
+		return tostring(o)
+	end
+end
+
 -- export module table
 return tools
 

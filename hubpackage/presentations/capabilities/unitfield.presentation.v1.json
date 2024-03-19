@@ -1,0 +1,41 @@
+{
+    "dashboard": {
+        "states": [],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Unit Field",
+            "displayType": "textField",
+            "textField": {
+                "command": "setUnit",
+                "argumentType": "string",
+                "value": "unittext.value",
+                "valueType": "string"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Unit value",
+                "displayType": "textField",
+                "textField": {
+                    "value": "unittext.value",
+                    "valueType": "string"
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Set unit value",
+                "displayType": "textField",
+                "textField": {
+                    "command": "setUnit",
+                    "argumentType": "string"
+                }
+            }
+        ]
+    },
+    "version": 1
+}

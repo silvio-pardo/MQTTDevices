@@ -1,0 +1,78 @@
+name: mqttnumeric.v1
+components:
+  - id: main
+    capabilities:
+      - id: colorborder61348.numberfieldv1
+        version: 1
+      - id: colorborder61348.unitfieldv1
+        version: 1
+      - id: colorborder61348.statusv1
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Others
+metadata:
+  mnmn: SmartThingsCommunity
+  vid: 75f09c26-fd77-3789-8405-a042eed404fa
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Expected Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: json
+  - title: "Number value JSON key"
+    name: jsonelement
+    description: "Value element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "value"
+  - title: "Unit value JSON key"
+    name: unitkey
+    description: "Unit element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "unit"
+  - title: "Publish Changes"
+    name: publish
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Publish Topic"
+    name: pubtopic
+    description: "Topic String"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Publish QoS"
+    name: qos
+    description: "Quality of Service"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        qos0: "0"
+        qos1: "1"
+        qos2: "2"
+      default: qos1

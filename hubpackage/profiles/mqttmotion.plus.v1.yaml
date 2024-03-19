@@ -1,0 +1,76 @@
+name: mqttmotion.plus.v1
+components:
+  - id: main
+    capabilities:
+      - id: motionSensor
+        version: 1
+      - id: illuminanceMeasurement
+        version: 1
+      - id: battery
+        version: 1
+      - id: colorborder61348.statusv1
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: MotionSensor
+metadata:
+  ocfDeviceType: x.com.st.d.sensor.motion
+  mnmn: SmartThingsCommunity
+  vid: 7446d0ec-bb87-3bce-a6b1-03176fe44f21
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Motion JSON Key"
+    name: jsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "motion.state"
+  - title: "Motion ACTIVE Value"
+    name: motionactive
+    description: "Msg value for ACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "active"
+  - title: "Motion INACTIVE Value"
+    name: motioninactive
+    description: "Msg value for INACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "inactive"
+  - title: "Lightlevel JSON Key"
+    name: lightkey
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "light.level"
+  - title: "Battery JSON Key"
+    name: batterykey
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "battery.level"
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

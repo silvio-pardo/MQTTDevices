@@ -1,0 +1,59 @@
+#TODO serve? device multipurpose
+name: mqttaccel
+components:
+  - id: main
+    capabilities:
+      - id: accelerationSensor
+        version: 1
+      - id: colorborder61348.status
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: MotionSensor
+metadata:
+  vid: 80949c7b-e783-3f5a-b6cf-42664a13e757
+  mnmn: SmartThingsCommunity
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Expected Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "JSON Key"
+    name: jsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Acceleration.Action"
+  - title: "Acceleration ACTIVE Value"
+    name: accelactive
+    description: "Msg value for ACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "active"
+  - title: "Acceleration INACTIVE Value"
+    name: accelinactive
+    description: "Msg value for INACTIVE"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "inactive"

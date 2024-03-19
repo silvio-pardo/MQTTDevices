@@ -1,0 +1,251 @@
+{
+    "dashboard": {
+        "states": [],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "{{i18n.label}}",
+            "displayType": "list",
+            "list": {
+                "command": {
+                    "name": "setDeviceType",
+                    "alternatives": [
+                        {
+                            "key": "Alarm",
+                            "value": "Alarm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Battery",
+                            "value": "Battery",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Button",
+                            "value": "Momentary Button",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Contact",
+                            "value": "Contact Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Dimmer",
+                            "value": "Dimmer",
+                            "type": "active"
+                        },
+                        {
+                            "key": "DimmerTempVariable",
+                            "value": "Dimmer Temperature Variable",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fan",
+                            "value": "Fan",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Humidity",
+                            "value": "Humidity",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Lock",
+                            "value": "Lock",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Motion",
+                            "value": "Motion Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "MotionPlus",
+                            "value": "MotionPlus",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Numeric",
+                            "value": "Numeric",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Presence",
+                            "value": "Presence Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Robot",
+                            "value": "Robot Cleaner",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Sound",
+                            "value": "Sound Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Switch",
+                            "value": "Switch",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Temperature",
+                            "value": "Temperature",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Text",
+                            "value": "Text",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Water",
+                            "value": "Water Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Shade",
+                            "value": "Window Shade",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Plug",
+                            "value": "Smart Plug",
+                            "type": "active"
+                        },
+                        {
+                            "key": "PlugMeter",
+                            "value": "Smart Plug Meter",
+                            "type": "active"
+                        }
+                    ],
+                    "argumentType": "string"
+                },
+                "state": {
+                    "value": "deviceType.value",
+                    "valueType": "string",
+                    "alternatives": [
+                        {
+                            "key": "Alarm",
+                            "value": "Alarm",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Battery",
+                            "value": "Battery",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Button",
+                            "value": "Momentary Button",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Contact",
+                            "value": "Contact Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Dimmer",
+                            "value": "Dimmer",
+                            "type": "active"
+                        },
+                        {
+                            "key": "DimmerTempVariable",
+                            "value": "Dimmer Temperature Variable",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Fan",
+                            "value": "Fan",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Humidity",
+                            "value": "Humidity",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Lock",
+                            "value": "Lock",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Motion",
+                            "value": "Motion Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "MotionPlus",
+                            "value": "MotionPlus",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Numeric",
+                            "value": "Numeric",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Presence",
+                            "value": "Presence Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Robot",
+                            "value": "Robot Cleaner",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Sound",
+                            "value": "Sound Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Switch",
+                            "value": "Switch",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Temperature",
+                            "value": "Temperature",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Text",
+                            "value": "Text",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Water",
+                            "value": "Water Sensor",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Shade",
+                            "value": "Window Shade",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Plug",
+                            "value": "Smart Plug",
+                            "type": "active"
+                        },
+                        {
+                            "key": "PlugMeter",
+                            "value": "Smart Plug Meter",
+                            "type": "active"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [],
+        "actions": []
+    },
+    "version": 1
+}

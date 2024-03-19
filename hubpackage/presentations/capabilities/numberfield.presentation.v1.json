@@ -1,0 +1,57 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{numberval.value}}"
+            }
+        ],
+        "actions": []
+    },
+    "detailView": [
+        {
+            "label": "Number Field",
+            "displayType": "numberField",
+            "numberField": {
+                "value": "numberval.value",
+                "valueType": "number",
+                "command": "setNumber",
+                "argumentType": "number",
+                "range": [
+                    -1000000,
+                    1000000
+                ]
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Number Value",
+                "displayType": "numberField",
+                "numberField": {
+                    "value": "numberval.value",
+                    "valueType": "number",
+                    "range": [
+                        -1000000,
+                        1000000
+                    ]
+                }
+            }
+        ],
+        "actions": [
+            {
+                "label": "Set number value",
+                "displayType": "numberField",
+                "numberField": {
+                    "command": "setNumber",
+                    "argumentType": "number",
+                    "range": [
+                        -1000000,
+                        1000000
+                    ]
+                }
+            }
+        ]
+    },
+    "version": 1
+}

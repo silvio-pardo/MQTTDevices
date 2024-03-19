@@ -1,0 +1,48 @@
+#TODO trasformare in rilevatore qualità aria
+name: mqttCO2
+components:
+  - id: main
+    capabilities:
+      - id: carbonDioxideMeasurement
+        version: 1
+        config:
+          values:
+            - key: "carbonDioxide.value"
+              range: [0, 5000]
+      - id: colorborder61348.status
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: AirQualityDetector
+metadata:
+  vid: 20c85e47-8ff3-3c04-86b1-23455e7663da
+  ocfDeviceType: x.com.st.d.airqualitysensor
+  mnmn: SmartThingsCommunity
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Expected Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "JSON Key"
+    name: jsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "CO2.value"

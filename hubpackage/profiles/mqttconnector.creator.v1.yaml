@@ -1,0 +1,59 @@
+name: mqttconnector.creator.v1
+components:
+  - id: main
+    capabilities:
+      - id: colorborder61348.createmqttdevv1
+        version: 1
+      - id: colorborder61348.statusv1
+        version: 1
+      - id: colorborder61348.topiclistv1
+        version: 1
+      - id: refresh
+        version: 1
+      - id: colorborder61348.mqttpublishv1
+        version: 1
+    categories:
+      - name: Others
+metadata:
+  mnmn: SmartThingsCommunity
+  vid: 2d669189-55d8-3dd8-82cc-c4436a295b6c
+preferences:
+  - title: "MQTT Broker Username"
+    name: userid
+    description: "Authentication Username"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 3
+      maxLength: 32
+      default: "xxxxx"
+  - title: "MQTT Broker Password"
+    name: password
+    description: "Authentication PW"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 3
+      maxLength: 32
+      default: "xxxxx"
+  - title: "MQTT Broker IP Address"
+    name: broker
+    description: "Broker Address"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      minLength: 7
+      maxLength: 15
+      default: "192.168.1.xxx"
+  - title: "Reconnection wait"
+    name: reconndelay
+    description: "Number of seconds"
+    required: false
+    preferenceType: integer
+    definition:
+      minimum: 1
+      maximum: 600
+      default: 15

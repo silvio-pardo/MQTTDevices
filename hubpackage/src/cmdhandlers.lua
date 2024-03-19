@@ -1,65 +1,32 @@
---[[
-  Copyright 2022, 2023 Todd Austin
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
-  except in compliance with the License. You may obtain a copy of the License at:
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the
-  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-  either express or implied. See the License for the specific language governing permissions
-  and limitations under the License.
-
-
-  DESCRIPTION
-
-  MQTT Device Driver - Capability Command handlers
-
---]]
-
 local log = require "log"
 local capabilities = require "st.capabilities"
-local cosock = require "cosock"
-local socket = require "cosock.socket"          -- just for time
+local socket = require "cosock.socket"
 local json = require "dkjson"
-
 local subs = require "subscriptions"
 
-
-local function publish_message(device, payload, opt_topic, opt_qos)
-
-  if client and (client_reset_inprogress==false) and payload then
-  
-    local pubtopic = opt_topic or device.preferences.pubtopic
-    local pubqos = opt_qos or device.preferences.qos:match('qos(%d)$')
-    
-    assert(client:publish{
-      topic = pubtopic,
-      payload = payload,
-      qos = tonumber(pubqos)
-    })
-    
-    log.debug (string.format('Message "%s" published to topic %s with qos=%d', payload, pubtopic, tonumber(pubqos)))
-    
-  end
-
-end
-
-
 local function handle_refresh(driver, device, command)
-
   log.info ('Refresh requested')
-
-  if device.device_network_id:find('Master', 1, 'plaintext') then
+  if device.device_network_id:find(connectorNetworkId, 1, 'plaintext') then
     creator_device:emit_event(cap_createdev.deviceType(' ', { visibility = { displayed = false } }))
     init_mqtt(device)
   else
-    subs.mqtt_subscribe(device)
+    local subscribed, id, topic = subs.mqtt_check_is_subscribed(device)
+    if subscribed then
+      log.info ('Refresh status device requested, request updated data from zigbee2mqtt')
+      local havemsgpersistence = subs.get_last_status_device(device)
+
+      if (havemsgpersistence == false) then
+        log.info('The device have persistence message enabled!')
+        log.debug (string.format('Unsubscribing device <%s> from %s', device.label, topic))
+        subs.unsubscribe(id, topic)
+        log.debug (string.format('Subscribing device <%s> from %s', device.label, topic))
+        subs.mqtt_subscribe(device)
+      end
+    else
+      subs.mqtt_subscribe(device)
+    end
   end
-
 end
-
 
 local function create_device(driver, dtype)
 
@@ -93,7 +60,6 @@ local function create_device(driver, dtype)
   end
 end
 
-
 local function handle_createdevice(driver, device, command)
 
   log.debug("Device type selection: ", command.args.value)
@@ -111,15 +77,21 @@ local function handle_switch(driver, device, command)
   device:emit_event(capabilities.switch.switch(command.command))
 
   local dtype = device.device_network_id:match('MQTT_(.+)_+')
-  
-  if dtype == 'Switch' and device.preferences.publish == true then
+  if (dtype == 'Switch' or dtype == 'Dimmer' or dtype == 'DimmerTempVariable') and device.preferences.publish == true then
       
     local cmdmap = {
                       ['on'] = device.preferences.switchon,
                       ['off'] = device.preferences.switchoff
                    }
-           
-    publish_message(device, cmdmap[command.command])
+    if dtype == 'Dimmer' or dtype == 'DimmerTempVariable' then
+      if device.preferences.swformat == 'json' then
+        subs.publish_message(device, tostring('{ "'.. device.preferences.swjsonelement ..'":"'..cmdmap[command.command]..'"}'), device.preferences.pubswtopic)
+      else
+        subs.publish_message(device, cmdmap[command.command], device.preferences.pubswtopic)
+      end
+    else
+      subs.publish_message(device, cmdmap[command.command])
+    end
 
   end
 end
@@ -131,8 +103,8 @@ local function handle_button(driver, device, command)
   device:emit_event(capabilities.button.button.pushed({state_change = true}))
   
   if device.preferences.publish == true then
-    
-    publish_message(device, device.preferences.butpush)
+
+    subs.publish_message(device, device.preferences.butpush)
       
   end
 end
@@ -153,27 +125,19 @@ local function handle_alarm(driver, device, command)
                       ['strobe'] = device.preferences.alarmstrobe,
                       ['both'] = device.preferences.alarmboth,
                    }
-                   
-    publish_message(device, cmdmap[command.command])
+
+    subs.publish_message(device, cmdmap[command.command])
 
   end
 end
 
-
 local function handle_dimmer(driver, device, command)
+  log.info ('Dimmer value changed to ', command.args.level)
 
-  log.info ('Dimmmer value changed to ', command.args.level)
-  
   local dimmerlevel = command.args.level
-  
-  if device.preferences.dimmermax then
-    if dimmerlevel > device.preferences.dimmermax then
-      dimmerlevel = device.preferences.dimmermax
-    end
-  end
-    
+
   device:emit_event(capabilities.switchLevel.level(dimmerlevel))
-  
+
   if device:supports_capability_by_id('switch') then
     if dimmerlevel > 0 then
       device:emit_event(capabilities.switch.switch('on'))
@@ -181,14 +145,44 @@ local function handle_dimmer(driver, device, command)
       device:emit_event(capabilities.switch.switch('off'))
     end
   end
-  
+
   if device.preferences.publish == true then
-    
-    publish_message(device, tostring(dimmerlevel))
-    
+    if device.preferences.dimmermax then
+      dimmerlevel = math.floor(math.abs((dimmerlevel * device.preferences.dimmermax) / 100))
+    end
+    log.info ('Dimmmer value calculated ', command.args.level)
+
+    if device.preferences.format == 'json' then
+      subs.publish_message(device, tostring('{ "'.. device.preferences.jsonelement ..'":"'..dimmerlevel..'"}'))
+    else
+      subs.publish_message(device, tostring(dimmerlevel))
+    end
   end
 end
 
+local function handle_color_temp(driver, device, command)
+  log.info ('Color Temp value changed to ', command.args.temperature)
+  local valueTemperature = command.args.temperature
+
+  device:emit_event(capabilities.colorTemperature.colorTemperature(valueTemperature))
+
+  percentageTemp = math.floor(math.abs((valueTemperature / 30000) * 100))
+  log.info ('color temperature percentage value:', percentageTemp)
+  convertedValue = math.floor(math.abs((percentageTemp * (device.preferences.temperaturemax - device.preferences.temperaturemin)) / 100)) + device.preferences.temperaturemin
+  if(device.preferences.tempinvertcalculation) then
+    convertedValue = device.preferences.temperaturemax - math.floor(math.abs((percentageTemp * (device.preferences.temperaturemax - device.preferences.temperaturemin)) / 100))
+  end
+  log.info ('color temperature converted value:', convertedValue)
+
+  if device.preferences.publish == true then
+    log.info ('send color temperature change...')
+    if device.preferences.formatTemp == 'json' then
+      subs.publish_message(device, tostring('{ "'.. device.preferences.tempjsonelement ..'":"'..convertedValue..'"}'))
+    else
+      subs.publish_message(device, tostring(convertedValue))
+    end
+  end
+end
 
 local function handle_fanspeed(driver, device, command)
 
@@ -212,15 +206,14 @@ local function handle_fanspeed(driver, device, command)
                         }
   
     if device.preferences.publish == true then
-      
-      publish_message(device, tostring(pubspeedmap[command.args.speed]))
+
+      subs.publish_message(device, tostring(pubspeedmap[command.args.speed]))
       
     end
   else
     log.warn ('Invalid fan speed range configured:', device.preferences.fanspeedrange)
   end
 end
-
 
 local function handle_lock(driver, device, command)
 
@@ -245,13 +238,12 @@ local function handle_lock(driver, device, command)
                   ['unlock'] = device.preferences.lockunlocked
                }
     end
-                   
-    publish_message(device, cmdmap[command.command])
+
+    subs.publish_message(device, cmdmap[command.command])
     
   end
 
 end
-
 
 local function handle_volume(driver, device, command)
   if command.args.volume < device.preferences.threshold then
@@ -261,7 +253,6 @@ local function handle_volume(driver, device, command)
   end
 end
 
-
 local function handle_tempset(driver, device, command)
 
   local tempunit = 'C'
@@ -270,36 +261,22 @@ local function handle_tempset(driver, device, command)
   end
   
   device:emit_event(capabilities.temperatureMeasurement.temperature({value=command.args.temp, unit=tempunit}))
-  
-  device:emit_event(cap_tempset.vtemp({value=command.args.temp, unit=tempunit}))
+  device:emit_event(capabilities.setHeatingSetpoint.heatingSetpoint({value=command.args.temp, unit=tempunit}))
   
   if device.preferences.publish == true then
-    publish_message(device, tostring(command.args.temp))
+    subs.publish_message(device, tostring(command.args.temp))
   end
 
 end
-
 
 local function handle_humidityset(driver, device, command)
 
   device:emit_event(capabilities.relativeHumidityMeasurement.humidity(command.args.humidity))
   
-  device:emit_event(cap_humidityset.vhumidity(command.args.humidity))
-  
   if device.preferences.publish == true then
-    publish_message(device, tostring(command.args.humidity))
+    subs.publish_message(device, tostring(command.args.humidity))
   end
 
-end
-
-local function handle_reset(driver, device, command)
-
-  log.info ('Energy Meter Reset requested')
-  
-  device:emit_event(cap_reset.cmdSelect(' ', { visibility = { displayed = false }}))
-  
-  device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
-  
 end
 
 local function disptable(table, tab, maxlevels, currlevel)
@@ -323,44 +300,10 @@ local function handle_custompublish(driver, device, command)
   --disptable(command, '  ', 8)
 
   log.debug (string.format('%s command Received; topic = %s; msg = %s; qos = %d (%s)', command.command, command.args.topic, command.args.message, command.args.qos, type(command.args.qos)))
-  
-  publish_message(device, command.args.message, command.args.topic, command.args.qos)
+
+  subs.publish_message(device, command.args.message, command.args.topic, command.args.qos)
 
 end
-
-
-local function handle_setenergy(driver, device, command)
-
-  log.info (string.format('Energy value set to %s', command.args.energyval))
-  device:emit_event(cap_setenergy.energyval({value = command.args.energyval, unit = device.preferences.eunitsset}))
-  device:emit_event(capabilities.energyMeter.energy({value = command.args.energyval, unit=device.preferences.eunitsset}))
-
-  if device.preferences.epublish == true then
-    publish_message(device, tostring(command.args.energyval), device.preferences.epubtopic)
-  end
-
-end
-
-
-local function handle_setpower(driver, device, command)
-
-  log.info (string.format('Power value set to %s', command.args.powerval))
-  
-  local disp_multiplier = 1
-  if device.preferences.punitsset == 'mwatts' then
-    disp_multiplier = .001
-  elseif device.preferences.punitsset == 'kwatts' then
-    disp_multiplier = 1000
-  end
-  device:emit_event(cap_setpower.powerval(command.args.powerval * disp_multiplier))
-  device:emit_event(capabilities.powerMeter.power(command.args.powerval * disp_multiplier))
-
-  if device.preferences.ppublish == true then
-    publish_message(device, tostring(command.args.powerval), device.preferences.ppubtopic)
-  end
-
-end
-
 
 local function handle_setnumeric(driver, device, command)
 
@@ -381,9 +324,9 @@ local function handle_setnumeric(driver, device, command)
       else
         sendmsg = tostring(command.args.numberval) .. ' ' .. device.state_cache.main[cap_unitfield.ID].unittext.value
       
-      end  
-      
-      publish_message(device, sendmsg)
+      end
+
+      subs.publish_message(device, sendmsg)
     end
   
   elseif command.command == 'setUnit' then
@@ -422,11 +365,10 @@ local function handle_shade(driver, device, command)
   end
   
   if device.preferences.publish then
-    publish_message(device, cmdmap[command.command].pubval)
+    subs.publish_message(device, cmdmap[command.command].pubval)
   end
 
 end
-
 
 local function handle_robot(driver, device, command)
 
@@ -438,12 +380,12 @@ local function handle_robot(driver, device, command)
     if command.args.mode == 'stop' then
       device:emit_event(capabilities.robotCleanerMovement.robotCleanerMovement('idle'))
       if device.preferences.publish then
-        publish_message(device, device.preferences.robotstop)
+        subs.publish_message(device, device.preferences.robotstop)
       end
     elseif command.args.mode == 'auto' then
       device:emit_event(capabilities.robotCleanerMovement.robotCleanerMovement('cleaning'))
       if device.preferences.publish then
-        publish_message(device, device.preferences.robotstart)
+        subs.publish_message(device, device.preferences.robotstart)
       end
     
     end
@@ -458,24 +400,31 @@ local function handle_robot(driver, device, command)
     if command.args.mode == 'idle' then
       device:emit_event(capabilities.robotCleanerCleaningMode.robotCleanerCleaningMode('manual'))
       if device.preferences.publish then
-        publish_message(device, device.preferences.robotpause)
+        subs.publish_message(device, device.preferences.robotpause)
       end
       
     elseif command.args.mode == 'cleaning' then
       device:emit_event(capabilities.robotCleanerCleaningMode.robotCleanerCleaningMode('auto'))
       if device.preferences.publish then
-        publish_message(device, device.preferences.robotstart)
+        subs.publish_message(device, device.preferences.robotstart)
       end
     
     elseif (command.args.mode == 'charging') or (command.args.mode == 'homing') then
       device:emit_event(capabilities.robotCleanerCleaningMode.robotCleanerCleaningMode('manual'))
       if device.preferences.publish then
-        publish_message(device, device.preferences.robothome)
+        subs.publish_message(device, device.preferences.robothome)
       end
     end
   end
   
 end
+
+--unused function
+local function handle_reset_energy(driver, device, command)
+  log.info ('Energy Meter History Reset')
+  device:emit_event(capabilities.energyMeter.energy({value = 0, unit = "kWh" }))
+end
+--end unused
 
 return  {
           handle_refresh = handle_refresh,
@@ -488,13 +437,10 @@ return  {
           handle_volume = handle_volume,
           handle_tempset = handle_tempset,
           handle_humidityset = handle_humidityset,
-          handle_reset = handle_reset,
           handle_custompublish = handle_custompublish,
-          handle_setenergy = handle_setenergy,
-          handle_setpower = handle_setpower,
           handle_setnumeric = handle_setnumeric,
           handle_shade = handle_shade,
           handle_robot = handle_robot,
           handle_fanspeed = handle_fanspeed,
-        }
-        
+          handle_color_temp = handle_color_temp
+}
