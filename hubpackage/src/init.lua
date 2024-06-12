@@ -39,9 +39,9 @@ typemeta =  {
   ['Robot']         = { ['profile'] = 'mqttrobot.v1',         ['created'] = 0, ['switch'] = false },
   ['Fan']           = { ['profile'] = 'mqttfan.v1',           ['created'] = 0, ['switch'] = true },
   ['DimmerTempVariable'] = { ['profile'] = 'mqttdimmer.tempvariable.v1',['created'] = 0, ['switch'] = true },
-  ['Plug']       = { ['profile'] = 'mqttplug.v1',       ['created'] = 0, ['switch'] = true },
-  ['PlugMeter']       = { ['profile'] = 'mqttplug.meter.v1',       ['created'] = 0, ['switch'] = true },
---['CO2']          = { ['profile'] = 'mqttCO2',           ['created'] = 0, ['switch'] = false },
+  ['Plug']       = { ['profile'] = 'mqttplug.v1',             ['created'] = 0, ['switch'] = true },
+  ['PlugMeter']       = { ['profile'] = 'mqttplug.meter.v1',  ['created'] = 0, ['switch'] = true },
+  ['Smoke']          = { ['profile'] = 'mqttsmoke.v1',        ['created'] = 0, ['switch'] = false },
 }
 
 -- Module variables
@@ -306,8 +306,8 @@ local function device_added (driver, device)
       device:emit_event(capabilities.powerMeter.power(0))
       device:emit_event(capabilities.switch.switch('off'))
       device:emit_event(capabilities.currentMeasurement.current(0))
-    --elseif dtype == 'CO2' then
-      --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(0))
+    elseif dtype == 'Smoke' then
+      device:emit_event(capabilities.smokeDetector.smoke('clear'))
     end
 
     creator_device:emit_event(cap_createdev.deviceType('Device created'))

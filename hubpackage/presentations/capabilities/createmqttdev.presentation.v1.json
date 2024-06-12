@@ -120,6 +120,11 @@
                             "key": "PlugMeter",
                             "value": "Smart Plug Meter",
                             "type": "active"
+                        },
+                        {
+                            "key": "Smoke",
+                            "value": "Smoke Sensor",
+                            "type": "active"
                         }
                     ],
                     "argumentType": "string"
@@ -236,6 +241,11 @@
                         {
                             "key": "PlugMeter",
                             "value": "Smart Plug Meter",
+                            "type": "active"
+                        },
+                        {
+                            "key": "Smoke",
+                            "value": "Smoke Sensor",
                             "type": "active"
                         }
                     ]

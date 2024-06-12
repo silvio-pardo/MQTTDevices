@@ -456,11 +456,16 @@ local function process_message(topic, msg)
           if type(valueEnergyMeter) == 'number' then
             device:emit_event(capabilities.energyMeter.energy({value = tonumber(valueEnergyMeter), unit = device.preferences.eunits }))
           end
-          --elseif dtype == 'CO2' then
-          --value = tonumber(value)
-          --if type(value) == 'number' then
-          --device:emit_event(capabilities.carbonDioxideMeasurement.carbonDioxide(value))
-          --end
+
+        elseif dtype == 'Smoke' then
+          if value == device.preferences.smokedetected then
+            device:emit_event(capabilities.smokeDetector.smoke('detected'))
+          elseif value == device.preferences.smokenotdetected then
+            device:emit_event(capabilities.smokeDetector.smoke('clear'))
+          else
+            log.warn ('Unconfigured smokesensor value received')
+          end
+
         else
           log.warn ('No valid device found; ignoring')
         end

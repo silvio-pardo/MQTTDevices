@@ -1,18 +1,18 @@
-name: mqttwater.v1
+name: mqttsmoke.v1
 components:
   - id: main
     capabilities:
-      - id: waterSensor
+      - id: smokeDetector
         version: 1
       - id: colorborder61348.statusv1
         version: 1
       - id: refresh
         version: 1
     categories:
-      - name: LeakSensor
+      - name: SmokeDetector
 metadata:
   mnmn: SmartThingsCommunity
-  vid: f9ea51a0-60b8-39cd-b355-bcc053e59658
+  vid: eed2b0dc-c052-30c4-8cce-406345b84a43
 preferences:
   - title: "Subscribe Topic"
     name: subTopic
@@ -40,19 +40,19 @@ preferences:
     definition:
       stringType: text
       default: "Water.Action"
-  - title: "DRY Value"
-    name: waterdry
-    description: "Msg value for DRY"
+  - title: "Smoke Detected Value"
+    name: smokedetected
+    description: "Msg value for detected smoke"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "dry"
-  - title: "WET Value"
-    name: waterwet
-    description: "Msg value for WET"
+      default: "true"
+  - title: "Smoke NotDetected Value"
+    name: smokenotdetected
+    description: "Msg value for not detect smoke"
     required: true
     preferenceType: string
     definition:
       stringType: text
-      default: "wet"
+      default: "false"
