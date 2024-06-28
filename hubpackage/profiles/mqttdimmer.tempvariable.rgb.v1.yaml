@@ -1,0 +1,229 @@
+name: mqttdimmer.tempvariable.rgb.v1
+components:
+  - id: main
+    capabilities:
+      - id: switchLevel
+        version: 1
+      - id: switch
+        version: 1
+      - id: colorTemperature
+        version: 1
+      - id: colorControl
+        version: 1
+      - id: colorborder61348.statusv1
+        version: 1
+      - id: refresh
+        version: 1
+    categories:
+      - name: Light
+metadata:
+  vid: 26297cbb-311b-3694-8828-a4aff9f6a1d5
+  mnmn: SmartThingsCommunity
+  ocfDeviceType: oic.d.light
+preferences:
+  - title: "Subscribe Topic"
+    name: subTopic
+    description: "Topic Name"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Expected Dimmer Message Format"
+    name: format
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Dimmer JSON Key"
+    name: jsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Max Dimmer Value"
+    name: dimmermax
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
+  - title: "Expected Switch Message Format"
+    name: swformat
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Switch JSON Key"
+    name: swjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Switch.Action"
+  - title: "Switch ON Value"
+    name: switchon
+    description: "Msg value for ON"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "on"
+  - title: "Switch OFF Value"
+    name: switchoff
+    description: "Msg value for OFF"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "off"
+  - title: "Expected Temperature Message Format"
+    name: formatTemp
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "Temperature JSON Key"
+    name: tempjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Min Temperature Value"
+    name: temperaturemin
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
+  - title: "Max Temperature Value"
+    name: temperaturemax
+    description: "Enter a number for percentage calculation"
+    required: true
+    preferenceType: integer
+    definition:
+      default: 100
+  - title: "Invert Temperature Calculation"
+    name: tempinvertcalculation
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Expected Color Message Format"
+    name: formatColor
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+        string: "String"
+      default: string
+  - title: "MultiColor JSON Key"
+    name: colorjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Color HLS X JSON Key"
+    name: colorhlsxjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Color HLS Y JSON Key"
+    name: colorhlsyjsonelement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "Dimmer.Action"
+  - title: "Publish State Changes"
+    name: publish
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Publish Dimmer Topic"
+    name: pubtopic
+    description: "Topic String"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Publish Switch Topic"
+    name: pubswtopic
+    description: "Topic String"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx"
+  - title: "Publish QoS"
+    name: qos
+    description: "Quality of Service"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        qos0: "0"
+        qos1: "1"
+        qos2: "2"
+      default: qos1
+  - title: "Enable State Changes Request"
+    name: getter
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
+  - title: "Getter Topic"
+    name: getterTopic
+    description: "Topic Name"
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "xxxxx/xxxxx/get"
+  - title: "Getter Message Format"
+    name: getterFormat
+    description: "Select type"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        json: "JSON"
+      default: json
+  - title: "Getter Message JSON Key"
+    name: getterJsonElement
+    description: "Data element"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: "State"
