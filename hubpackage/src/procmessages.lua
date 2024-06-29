@@ -33,10 +33,11 @@ local function getJSONElement(key, jsonstring)
   local found = false
   local elementslist = {}
 
+  --- for nesting value concatenate in string as example: key1.key2.key3
   for element in string.gmatch(key, "[^%.]+") do
     table.insert(elementslist, element)
   end
-  
+
   for el_idx=1, #elementslist do
     jsonelement = elementslist[el_idx]
     local key = jsonelement:match('^([^%[]+)')
@@ -44,7 +45,7 @@ local function getJSONElement(key, jsonstring)
     if array_index then; array_index = tonumber(array_index) + 1; end	-- adjust for Lua indexes starting at 1
     compound = compound[key]
     if compound == nil then; break; end
-    
+
     if array_index then
       if is_array(compound) then
         if compound[array_index] then
@@ -56,7 +57,7 @@ local function getJSONElement(key, jsonstring)
         break
       end
     end
-    
+
     if type(compound) ~= 'table' then
       if el_idx == #elementslist then
         found = true
@@ -65,10 +66,11 @@ local function getJSONElement(key, jsonstring)
       end
     end
   end
-  
+
   if found then
     return compound
   end
+
 end
 
 local function motionplus(device, msg)
@@ -249,6 +251,63 @@ local function process_message(topic, msg)
             end
 
             device:emit_event(capabilities.colorTemperature.colorTemperature(convertedValue))
+          end
+
+        elseif dtype == 'DimmerTVarRgb' then
+          local numvalue = tonumber(value)
+          local valueSw = getJSONElement(device.preferences.swjsonelement, msg)
+          local valueTemperature = getJSONElement(device.preferences.tempjsonelement, msg)
+
+          local valueColorX = getJSONElement(''.. device.preferences.colorjsonelement ..'.'.. device.preferences.colorhlsxjsonelement ..'', msg)
+          local valueColorY = getJSONElement(''.. device.preferences.colorjsonelement ..'.'.. device.preferences.colorhlsyjsonelement ..'', msg)
+
+          if numvalue then
+            log.debug ('DimmerTempVariable Dimmer value received:', numvalue)
+            if numvalue < 0 then; numvalue = 0; end
+
+            if device.preferences.dimmermax then
+              numvalue = math.floor(math.abs((numvalue / device.preferences.dimmermax) * 100))
+            end
+            device:emit_event(capabilities.switchLevel.level(numvalue))
+          else
+            log.warn('Invalid dimmer value received (NaN)');
+          end
+
+          if device:supports_capability_by_id('switch') then
+            if valueSw == device.preferences.switchon then
+              device:emit_event(capabilities.switch.switch.on())
+            elseif valueSw == device.preferences.switchoff then
+              device:emit_event(capabilities.switch.switch.off())
+            else
+              log.warn ('Unconfigured switch value received')
+            end
+          end
+
+          if device:supports_capability_by_id('colorTemperature') then
+            log.debug ('DimmerTempVariable Temp received:', valueTemperature)
+            percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemin) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
+            if(device.preferences.tempinvertcalculation) then
+              percentageTemp = math.floor(math.abs(((valueTemperature - device.preferences.temperaturemax) / (device.preferences.temperaturemax - device.preferences.temperaturemin)) * 100))
+            end
+            log.info ('color temperature percentage value:', percentageTemp)
+            convertedValue = math.floor(math.abs((percentageTemp * 30000) / 100))
+            log.info ('color temperature converted value:', convertedValue)
+            if(convertedValue < 1) then
+              convertedValue = 1
+            end
+
+            device:emit_event(capabilities.colorTemperature.colorTemperature(convertedValue))
+          end
+
+          if device:supports_capability_by_id('colorControl') then
+            log.debug ('DimmerTempVariableRGB HLSX received:', valueColorX)
+            log.debug ('DimmerTempVariableRGB HLSY received:', valueColorY)
+
+            local hue, saturation, level = 0,0,1
+            hue, saturation, level = stutils.safe_xy_to_hsv(stutils.round(valueColorX * 65536), stutils.round(valueColorY * 65536), 1)
+
+            device:emit_event(capabilities.colorControl.hue(hue))
+            device:emit_event(capabilities.colorControl.saturation(saturation))
           end
 
         elseif dtype == 'Fan' then

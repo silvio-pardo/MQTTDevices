@@ -3,6 +3,7 @@ local capabilities = require "st.capabilities"
 local socket = require "cosock.socket"
 local json = require "dkjson"
 local subs = require "subscriptions"
+local stutils = require "st.utils"
 
 local function handle_refresh(driver, device, command)
   log.info ('Refresh requested')
@@ -77,13 +78,13 @@ local function handle_switch(driver, device, command)
   device:emit_event(capabilities.switch.switch(command.command))
 
   local dtype = device.device_network_id:match('MQTT_(.+)_+')
-  if (dtype == 'Switch' or dtype == 'Dimmer' or dtype == 'DimmerTempVariable') and device.preferences.publish == true then
+  if (dtype == 'Switch' or dtype == 'Dimmer' or dtype == 'DimmerTempVariable' or dtype == 'DimmerTVarRgb') and device.preferences.publish == true then
       
     local cmdmap = {
                       ['on'] = device.preferences.switchon,
                       ['off'] = device.preferences.switchoff
                    }
-    if dtype == 'Dimmer' or dtype == 'DimmerTempVariable' then
+    if dtype == 'Dimmer' or dtype == 'DimmerTempVariable' or dtype == 'DimmerTVarRgb' then
       if device.preferences.swformat == 'json' then
         subs.publish_message(device, tostring('{ "'.. device.preferences.swjsonelement ..'":"'..cmdmap[command.command]..'"}'), device.preferences.pubswtopic)
       else
@@ -161,7 +162,7 @@ local function handle_dimmer(driver, device, command)
 end
 
 local function handle_color_temp(driver, device, command)
-  log.info ('Color Temp value changed to ', command.args.temperature)
+  log.info ('Color Temperature value changed to ', command.args.temperature)
   local valueTemperature = command.args.temperature
 
   device:emit_event(capabilities.colorTemperature.colorTemperature(valueTemperature))
@@ -180,6 +181,37 @@ local function handle_color_temp(driver, device, command)
       subs.publish_message(device, tostring('{ "'.. device.preferences.tempjsonelement ..'":"'..convertedValue..'"}'))
     else
       subs.publish_message(device, tostring(convertedValue))
+    end
+  end
+end
+
+local function handle_multicolor_temp(driver, device, command)
+  log.info ('MultiColor value changed to ', command.args.color)
+  local valueHue = command.args.color.hue
+  local valueSaturation = command.args.color.saturation
+
+  device:emit_event(capabilities.colorControl.hue(valueHue))
+  device:emit_event(capabilities.colorControl.saturation(valueSaturation))
+
+  local x, y, Y = 0,0,0
+  x, y, Y = stutils.safe_hsv_to_xy(valueHue, valueSaturation);
+
+  log.info ('multicolor x converted value:', x)
+  log.info ('multicolor y converted value:', y)
+  log.info ('multicolor Y converted value:', Y)
+
+  local calcX = x / 65536
+  local calcY = y / 65536
+
+  log.info ('multicolor to HSB X:', calcX)
+  log.info ('multicolor to HSB Y:', calcY)
+
+  if device.preferences.publish == true then
+    log.info ('send multicolor change...')
+    if device.preferences.formatColor == 'json' then
+      subs.publish_message(device, tostring('{ "'.. device.preferences.colorjsonelement ..'": { "'.. device.preferences.colorhlsxjsonelement ..'":'.. calcX ..', "'.. device.preferences.colorhlsyjsonelement ..'":'.. calcY ..'}}'))
+    else
+      subs.publish_message(device, tostring(''.. x ..'-'.. y ..'-'.. Y ..''))
     end
   end
 end
@@ -442,5 +474,6 @@ return  {
           handle_shade = handle_shade,
           handle_robot = handle_robot,
           handle_fanspeed = handle_fanspeed,
-          handle_color_temp = handle_color_temp
+          handle_color_temp = handle_color_temp,
+          handle_multicolor_temp = handle_multicolor_temp
 }

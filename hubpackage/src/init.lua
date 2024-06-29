@@ -39,6 +39,7 @@ typemeta =  {
   ['Robot']         = { ['profile'] = 'mqttrobot.v1',         ['created'] = 0, ['switch'] = false },
   ['Fan']           = { ['profile'] = 'mqttfan.v1',           ['created'] = 0, ['switch'] = true },
   ['DimmerTempVariable'] = { ['profile'] = 'mqttdimmer.tempvariable.v1',['created'] = 0, ['switch'] = true },
+  ['DimmerTVarRgb'] = { ['profile'] = 'mqttdimmer.tempvariable.rgb.v1',['created'] = 0, ['switch'] = true },
   ['Plug']       = { ['profile'] = 'mqttplug.v1',             ['created'] = 0, ['switch'] = true },
   ['PlugMeter']       = { ['profile'] = 'mqttplug.meter.v1',  ['created'] = 0, ['switch'] = true },
   ['Smoke']          = { ['profile'] = 'mqttsmoke.v1',        ['created'] = 0, ['switch'] = false },
@@ -258,6 +259,12 @@ local function device_added (driver, device)
       device:emit_event(capabilities.switchLevel.level(0))
       device:emit_event(capabilities.switch.switch('off'))
       device:emit_event(capabilities.colorTemperature.colorTemperature(1))
+    elseif dtype == 'DimmerTVarRgb' then
+      device:emit_event(capabilities.switchLevel.level(0))
+      device:emit_event(capabilities.switch.switch('off'))
+      device:emit_event(capabilities.colorTemperature.colorTemperature(1))
+      device:emit_event(capabilities.colorControl.hue(0))
+      device:emit_event(capabilities.colorControl.saturation(0))
     elseif dtype == 'Contact' then
       device:emit_event(capabilities.contactSensor.contact('closed'))
     elseif dtype == 'MotionPlus' then
@@ -486,6 +493,9 @@ thisDriver = Driver("MQTT ZigBee Devices", {
     },
     [capabilities.colorTemperature.ID] = {
       [capabilities.colorTemperature.commands.setColorTemperature.NAME] = cmd.handle_color_temp,
+    },
+    [capabilities.colorControl.ID] = {
+      [capabilities.colorControl.commands.setColor.NAME] = cmd.handle_multicolor_temp,
     },
     [capabilities.momentary.ID] = {
       [capabilities.momentary.commands.push.NAME] = cmd.handle_button,
