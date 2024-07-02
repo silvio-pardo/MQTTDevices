@@ -1,0 +1,3 @@
+./smartthings.exe capabilities:translations:upsert colorborder61348.createmqttdevv1 -i .\hubpackage\presentations\traslations\createmqttdev.en.traslation.json
+./smartthings.exe capabilities:translations:upsert colorborder61348.statusv1 -i .\hubpackage\presentations\traslations\status.en.traslation.json
+./smartthings.exe capabilities:translations:upsert colorborder61348.topiclistv1 -i .\hubpackage\presentations\traslations\topiclist.en.traslation.json
