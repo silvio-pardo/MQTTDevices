@@ -57,3 +57,10 @@ preferences:
     definition:
       stringType: text
       default: "notpresent"
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

@@ -49,3 +49,10 @@ preferences:
     preferenceType: integer
     definition:
       default: 5
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

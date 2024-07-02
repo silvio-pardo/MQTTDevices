@@ -40,11 +40,13 @@ local function publish_message(device, payload, opt_topic, opt_qos)
 
         local pubtopic = opt_topic or device.preferences.pubtopic
         local pubqos = opt_qos or device.preferences.qos:match('qos(%d)$')
+        local publishWithPersistence = false or device.preferences.mqttpubpersistence
 
         assert(client:publish{
             topic = pubtopic,
             payload = payload,
-            qos = tonumber(pubqos)
+            qos = tonumber(pubqos),
+            retain = publishWithPersistence
         })
 
         log.debug (string.format('Message "%s" published to topic %s with qos=%d', payload, pubtopic, tonumber(pubqos)))

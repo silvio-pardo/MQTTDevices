@@ -117,17 +117,18 @@ local function handle_alarm(driver, device, command)
 
   if device.preferences.publish == true then
     
-    local payload
-    
     local cmdmap = {
-                      ['off'] = device.preferences.alarmoff,
-                      ['siren'] = device.preferences.alarmsiren,
-                      ['strobe'] = device.preferences.alarmstrobe,
-                      ['both'] = device.preferences.alarmboth,
-                   }
+      ['off'] = device.preferences.alarmoff,
+      ['siren'] = device.preferences.alarmsiren,
+      ['strobe'] = device.preferences.alarmstrobe,
+      ['both'] = device.preferences.alarmboth,
+    }
 
-    subs.publish_message(device, cmdmap[command.command])
-
+    if device.preferences.format == 'json' then
+      subs.publish_message(device, tostring('{ "'.. device.preferences.jsonelement ..'":"'..cmdmap[command.command]..'"}'))
+    else
+      subs.publish_message(device, tostring(cmdmap[command.command]))
+    end
   end
 end
 

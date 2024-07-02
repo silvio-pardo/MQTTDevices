@@ -40,3 +40,10 @@ preferences:
     definition:
       stringType: text
       default: "data.text"
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

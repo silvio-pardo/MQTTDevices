@@ -114,3 +114,10 @@ preferences:
     preferenceType: boolean
     definition:
       default: false
+  - title: "Mqtt Pub Persistence Messages"
+    name: mqttpubpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false

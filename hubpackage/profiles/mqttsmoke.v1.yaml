@@ -56,3 +56,10 @@ preferences:
     definition:
       stringType: text
       default: "false"
+  - title: "Mqtt Persistence Messages"
+    name: mqttpersistence
+    description: "Enable/Disable"
+    required: true
+    preferenceType: boolean
+    definition:
+      default: false
